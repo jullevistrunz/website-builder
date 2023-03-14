@@ -1,0 +1,265 @@
+:root {
+  --main-background: hsl(232, 20%, 15%);
+  --light-background: hsl(232, 20%, 25%);
+  --dark-background: hsl(232, 20%, 5%);
+  --main-text: hsl(232, 20%, 95%);
+  --dark-text: hsl(232, 20%, 70%);
+  --color: hsl(232, 100%, 75%);
+}
+
+* {
+  font-family: 'Segoe UI';
+  color: var(--main-text);
+}
+
+*::selection {
+  background-color: var(--color);
+  color: var(--dark-background);
+}
+
+.content {
+  position: fixed;
+  top: 35px;
+  left: 60px;
+  width: calc(100% - 60px);
+  height: calc(100% - 35px);
+  background-color: var(--main-background);
+}
+
+.header {
+  background-color: var(--light-background);
+  position: fixed;
+  top: 0;
+  left: 60px;
+  width: calc(100% - 60px);
+  height: 35px;
+  box-shadow: 0 1px var(--dark-background);
+  z-index: 1;
+}
+
+.sidebar {
+  background-color: var(--light-background);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  box-shadow: 1px 0 var(--dark-background);
+  z-index: 1;
+}
+
+.logo {
+  stroke: var(--main-text);
+}
+
+.sidebar .logo {
+  height: 50px;
+  width: 50px;
+  margin: 0 auto;
+}
+
+.sidebar .settings {
+  position: absolute;
+  left: 12.5px;
+  bottom: 12.5px;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+}
+
+.sidebar .create {
+  margin: 0 auto;
+  height: 45px;
+  width: 45px;
+  fill: var(--dark-text);
+  cursor: pointer;
+}
+
+.sidebar .collection {
+  margin: 0 auto;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+}
+
+.sidebar .settings:hover,
+.sidebar .create:hover,
+.sidebar .collection:hover {
+  fill: var(--main-text);
+}
+
+.sidebar .selected {
+  fill: var(--main-text);
+}
+
+.sidebar .selected::before {
+  display: block;
+  content: '';
+  width: 2px;
+  height: 45px;
+  position: absolute;
+  left: 0;
+  background-color: var(--color);
+}
+
+.sidebar .spacer {
+  height: 12.5px;
+}
+
+.sidebar .line {
+  width: 35px;
+  height: 1px;
+  margin: 0 auto;
+  background-color: var(--dark-background);
+}
+
+.header .title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  color: var(--dark-text);
+}
+
+.popUpOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.popUpOverlay.use {
+  z-index: 999;
+}
+
+.popUpOverlay.use > div {
+  z-index: 1000;
+}
+
+.settingsPopUp {
+  position: fixed;
+  bottom: 12.5px;
+  left: 72.5px;
+  width: 250px;
+  background-color: var(--light-background);
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+  padding: 2.5px;
+}
+
+.settingsPopUp button {
+  background-color: var(--light-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+}
+
+.settingsPopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+}
+
+.settingsPopUp .section:not(:first-child) {
+  border-top: 2.5px solid var(--dark-background);
+  padding-top: 5px;
+}
+
+.settingsPopUp .section:not(:last-child) {
+  padding-bottom: 5px;
+}
+
+.collectionPage {
+  padding: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.collectionPage .card {
+  width: 250px;
+  border-radius: 10px;
+  background-color: var(--light-background);
+  padding: 10px;
+}
+
+.collectionPage .card .title {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 2.5px;
+  border-bottom: 1px solid var(--dark-background);
+}
+
+.collectionPage .card .description {
+  font-size: 16px;
+  padding: 2.5px;
+  margin: 12.5px 0;
+}
+
+.collectionPage .card button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+}
+
+.collectionPage .card button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.createPage {
+  padding: 50px;
+}
+
+.createPage input,
+.createPage textarea {
+  background-color: var(--main-background);
+  border: 2px var(--dark-background) solid;
+  border-radius: 5px;
+  padding: 12.5px;
+  font-size: 16px;
+  width: 50%;
+  transition: 150ms ease-in-out;
+}
+
+.createPage input {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.createPage input:focus,
+.createPage textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px 1px var(--dark-background);
+}
+
+.createPage button {
+  background-color: var(--light-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  padding: 12.5px;
+  font-size: 16px;
+}
+
+.createPage button:hover {
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.hidden {
+  visibility: hidden;
+  display: none;
+}
