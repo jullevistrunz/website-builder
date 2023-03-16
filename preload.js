@@ -74,7 +74,7 @@ contextBridge.exposeInMainWorld('preload', {
       console.info(page + ': stdout: ' + data)
     })
     ls.stderr.on('data', function (data) {
-      console.info(page + ': stderr: ' + data)
+      console.error(page + ': stderr: ' + data)
     })
     ls.on('exit', function (code) {
       console.info(page + ': child process exited with code ' + code)
