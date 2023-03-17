@@ -1,9 +1,15 @@
+const websiteName = 'Website Builder'
+
 document
   .querySelector('.sidebar .create')
   .addEventListener('click', selectSidebarItem)
 
 document
   .querySelector('.sidebar .collection')
+  .addEventListener('click', selectSidebarItem)
+
+document
+  .querySelector('.sidebar .servers')
   .addEventListener('click', selectSidebarItem)
 
 function selectSidebarItem() {
@@ -21,7 +27,10 @@ function selectSidebarItem() {
     document
       .querySelector('.content .collectionPage')
       .classList.remove('hidden')
-    loadCollection()
+    loadCollectionPage()
+  } else if (this.classList.contains('servers')) {
+    document.querySelector('.content .serversPage').classList.remove('hidden')
+    loadServersPage()
   } else {
     location.reload()
   }
@@ -42,7 +51,8 @@ document.querySelector('.popUpOverlay').addEventListener('click', function (e) {
   this.classList.remove('use')
 })
 
-function loadCollection() {
+function loadCollectionPage() {
+  updateTitle('Collection')
   if (localStorage.getItem('pages') == '[]') return
   document
     .querySelectorAll('.content .collectionPage div')
@@ -75,6 +85,7 @@ function loadCollection() {
 }
 
 function loadCreatePage() {
+  updateTitle('Create')
   document
     .querySelector('.content .createPage button')
     .addEventListener('click', () => {
@@ -88,3 +99,53 @@ function loadCreatePage() {
       preload.createPage(name, description)
     })
 }
+
+function loadServersPage() {
+  updateTitle('Running Servers')
+  const servers = JSON.parse(localStorage.getItem('runningServers'))
+  if (!servers || servers.length <= 0) {
+    return
+  }
+  document
+    .querySelectorAll('.content .serversPage div')
+    .forEach((el) => el.remove())
+  servers.forEach((page) => {
+    const card = document.createElement('div')
+    card.classList.add('card')
+    card.id = `card-${page}`
+    const title = document.createElement('div')
+    title.classList.add('title')
+    title.innerHTML = preload.getPageInfo(page).name
+    const description = document.createElement('div')
+    description.classList.add('description')
+    description.innerHTML = preload.getPageInfo(page).description
+    card.appendChild(title)
+    card.appendChild(description)
+    const stopBtn = document.createElement('button')
+    stopBtn.classList.add('stopBtn')
+    stopBtn.innerHTML = 'Stop Server'
+    stopBtn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe')
+      iframe.classList.add('hidden')
+      const info = preload.getPageInfo(page)
+      iframe.src = `http://localhost:${info.port}/exit?p=${info.password}`
+      document.body.appendChild(iframe)
+      localStorage.setItem(
+        'runningServers',
+        JSON.stringify(servers.filter((item) => item != page))
+      )
+      location.reload()
+    })
+    card.appendChild(stopBtn)
+    document.querySelector('.content .serversPage').appendChild(card)
+  })
+}
+
+function updateTitle(text) {
+  document.querySelector(
+    '.header .title'
+  ).innerHTML = `${websiteName} - ${text}`
+  document.title = `${websiteName} - ${text}`
+}
+
+// TODO: function goTo() and function goToAndReload()

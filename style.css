@@ -84,9 +84,18 @@
   cursor: pointer;
 }
 
+.sidebar .servers {
+  margin: 0 auto;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+}
+
 .sidebar .settings:hover,
 .sidebar .create:hover,
-.sidebar .collection:hover {
+.sidebar .collection:hover,
+.sidebar .servers:hover {
   fill: var(--main-text);
 }
 
@@ -176,34 +185,39 @@
   padding-bottom: 5px;
 }
 
-.collectionPage {
+.collectionPage,
+.serversPage {
   padding: 50px;
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
 }
 
-.collectionPage .card {
+.collectionPage .card,
+.serversPage .card {
   width: 250px;
   border-radius: 10px;
   background-color: var(--light-background);
   padding: 10px;
 }
 
-.collectionPage .card .title {
+.collectionPage .card .title,
+.serversPage .card .title {
   font-size: 24px;
   font-weight: 600;
   padding: 2.5px;
   border-bottom: 1px solid var(--dark-background);
 }
 
-.collectionPage .card .description {
+.collectionPage .card .description,
+.serversPage .card .description {
   font-size: 16px;
   padding: 2.5px;
   margin: 12.5px 0;
 }
 
-.collectionPage .card button {
+.collectionPage .card button,
+.serversPage .card button {
   background-color: var(--main-background);
   border: 1px transparent solid;
   border-radius: 5px;
@@ -214,7 +228,8 @@
   margin: 2.5px 0;
 }
 
-.collectionPage .card button:hover {
+.collectionPage .card button:hover,
+.serversPage .card button:hover {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
@@ -232,6 +247,7 @@
   padding: 12.5px;
   font-size: 16px;
   width: 50%;
+  min-width: 250px;
   transition: 150ms ease-in-out;
 }
 
@@ -252,6 +268,8 @@
   border-radius: 5px;
   padding: 12.5px;
   font-size: 16px;
+  width: calc(50% + 30px);
+  min-width: 280px;
 }
 
 .createPage button:hover {
