@@ -1,6 +1,7 @@
 const { contextBridge } = require('electron')
 const childProcess = require('child_process')
 const fs = require('fs')
+const net = require('net')
 
 window.addEventListener('DOMContentLoaded', () => {
   localStorage.setItem('settings', fs.readFileSync('settings.json'))
@@ -52,24 +53,12 @@ contextBridge.exposeInMainWorld('preload', {
       `pages/${id}/index.js`,
       `const port=${port},password="${password}",http=require("http"),fs=require("fs"),url=require("url"),server=http.createServer((function(req,res){const path=url.parse(req.url,!0).pathname;let query=url.parse(req.url,!0).query;if("/"==path)res.writeHead(200,{"Content-Type":"text/html"}),res.write("Hello World"),res.end();else if("/404"==path)res.writeHead(404,{"Content-Type":"text/html"}),res.write("404.html"),res.end();else if("/exit"==path){if(query.p!=password)return res.writeHead(403,{"Content-Type":"text/html"}),res.write("403 - Forbidden"),void res.end();res.writeHead(200,{"Content-Type":"text/html"}),res.write("Good Bye"),res.end(),server.close()}else res.writeHead(301,{Location:"/404"}),res.end()}));server.listen(port,(function(error){error?console.log("Something went wrong"+error):console.log("Listening on port " + port)}));`
     )
-    location.reload()
   },
   startServerBat: (page) => {
     const ls = childProcess.spawn('cmd.exe', [
       '/c',
       `pages\\${page}\\start.bat`,
     ])
-    if (!localStorage.getItem('runningServers')) {
-      localStorage.setItem('runningServers', JSON.stringify([page]))
-    } else {
-      localStorage.setItem(
-        'runningServers',
-        JSON.stringify([
-          ...JSON.parse(localStorage.getItem('runningServers')),
-          page,
-        ])
-      )
-    }
     ls.stdout.on('data', function (data) {
       console.info(page + ': stdout: ' + data)
     })
@@ -78,6 +67,27 @@ contextBridge.exposeInMainWorld('preload', {
     })
     ls.on('exit', function (code) {
       console.info(page + ': child process exited with code ' + code)
+    })
+  },
+  getRunningServers: () => {
+    localStorage.setItem('runningServers', '[]')
+    fs.readdirSync('pages').forEach((page) => {
+      const server = net.createServer()
+      server.once('error', function (err) {
+        if (err.code === 'EADDRINUSE') {
+          localStorage.setItem(
+            'runningServers',
+            JSON.stringify([
+              ...JSON.parse(localStorage.getItem('runningServers')),
+              page,
+            ])
+          )
+        }
+      })
+      server.once('listening', function () {
+        server.close()
+      })
+      server.listen(JSON.parse(fs.readFileSync(`pages/${page}/info.json`)).port)
     })
   },
 })

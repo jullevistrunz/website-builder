@@ -1,5 +1,10 @@
 const websiteName = 'Website Builder'
 
+if (localStorage.getItem('goTo')) {
+  goTo(localStorage.getItem('goTo'))
+  localStorage.removeItem('goTo')
+}
+
 document
   .querySelector('.sidebar .create')
   .addEventListener('click', selectSidebarItem)
@@ -51,7 +56,10 @@ document.querySelector('.popUpOverlay').addEventListener('click', function (e) {
   this.classList.remove('use')
 })
 
-function loadCollectionPage() {
+async function loadCollectionPage() {
+  preload.getRunningServers()
+  // wait for preload to set localStorage
+  await sleep(10)
   updateTitle('Collection')
   if (localStorage.getItem('pages') == '[]') return
   document
@@ -75,8 +83,15 @@ function loadCollectionPage() {
     const startBtn = document.createElement('button')
     startBtn.classList.add('startBtn')
     startBtn.innerHTML = 'Start Server'
-    startBtn.addEventListener('click', () => {
+    if (JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+      startBtn.disabled = true
+    }
+    startBtn.addEventListener('click', async () => {
       preload.startServerBat(page)
+      startBtn.innerHTML = 'Starting...'
+      // making sure servers page isn't loaded before the server started (sort of)
+      await sleep(2000)
+      goTo('servers')
     })
     card.appendChild(editBtn)
     card.appendChild(startBtn)
@@ -97,10 +112,14 @@ function loadCreatePage() {
       ).value
       if (!name || !description) return
       preload.createPage(name, description)
+      goToAndReload('collection')
     })
 }
 
-function loadServersPage() {
+async function loadServersPage() {
+  preload.getRunningServers()
+  // wait for preload to set localStorage
+  await sleep(10)
   updateTitle('Running Servers')
   const servers = JSON.parse(localStorage.getItem('runningServers'))
   if (!servers || servers.length <= 0) {
@@ -124,17 +143,16 @@ function loadServersPage() {
     const stopBtn = document.createElement('button')
     stopBtn.classList.add('stopBtn')
     stopBtn.innerHTML = 'Stop Server'
-    stopBtn.addEventListener('click', () => {
+    stopBtn.addEventListener('click', async () => {
       const iframe = document.createElement('iframe')
       iframe.classList.add('hidden')
       const info = preload.getPageInfo(page)
       iframe.src = `http://localhost:${info.port}/exit?p=${info.password}`
       document.body.appendChild(iframe)
-      localStorage.setItem(
-        'runningServers',
-        JSON.stringify(servers.filter((item) => item != page))
-      )
-      location.reload()
+      stopBtn.innerHTML = 'Stopping...'
+      // making sure collection page isn't loaded before the server stopped (sort of)
+      await sleep(2000)
+      goToAndReload('collection')
     })
     card.appendChild(stopBtn)
     document.querySelector('.content .serversPage').appendChild(card)
@@ -142,10 +160,23 @@ function loadServersPage() {
 }
 
 function updateTitle(text) {
-  document.querySelector(
-    '.header .title'
-  ).innerHTML = `${websiteName} - ${text}`
-  document.title = `${websiteName} - ${text}`
+  const titleText = `${text} - ${websiteName}`
+  document.querySelector('.header .title').innerHTML = titleText
+  document.title = titleText
 }
 
-// TODO: function goTo() and function goToAndReload()
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms))
+}
+
+async function goTo(sidebarChild) {
+  if (!document.querySelector(`.sidebar .${sidebarChild}`)) return
+  //? somehow doesn't work without sleep on page reload
+  await sleep()
+  document.querySelector(`.sidebar .${sidebarChild}`).click()
+}
+
+function goToAndReload(sidebarChild) {
+  localStorage.setItem('goTo', sidebarChild)
+  location.reload()
+}

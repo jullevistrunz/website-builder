@@ -226,13 +226,20 @@
   text-align: left;
   padding: 5px 12.5px;
   margin: 2.5px 0;
+  cursor: pointer;
 }
 
-.collectionPage .card button:hover,
-.serversPage .card button:hover {
+.collectionPage .card button:not(:disabled):hover,
+.serversPage .card button:not(:disabled):hover {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+}
+
+.collectionPage .card button:disabled,
+.serversPage .card button:disabled {
+  color: var(--dark-text);
+  cursor: not-allowed;
 }
 
 .createPage {
