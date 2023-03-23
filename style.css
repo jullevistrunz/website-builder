@@ -242,6 +242,10 @@
   cursor: not-allowed;
 }
 
+.collectionPage .card .deleteBtn:not(:disabled):hover {
+  color: red;
+}
+
 .createPage {
   padding: 50px;
 }

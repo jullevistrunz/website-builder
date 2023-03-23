@@ -83,9 +83,6 @@ async function loadCollectionPage() {
     const startBtn = document.createElement('button')
     startBtn.classList.add('startBtn')
     startBtn.innerHTML = 'Start Server'
-    if (JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
-      startBtn.disabled = true
-    }
     startBtn.addEventListener('click', async () => {
       preload.startServerBat(page)
       startBtn.innerHTML = 'Starting...'
@@ -93,8 +90,20 @@ async function loadCollectionPage() {
       await sleep(2000)
       goTo('servers')
     })
+    const deleteBtn = document.createElement('button')
+    deleteBtn.classList.add('deleteBtn')
+    deleteBtn.innerHTML = 'Delete'
+    if (JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+      startBtn.disabled = true
+      deleteBtn.disabled = true
+    }
+    deleteBtn.addEventListener('click', () => {
+      preload.deletePage(page)
+      goToAndReload('collection')
+    })
     card.appendChild(editBtn)
     card.appendChild(startBtn)
+    card.appendChild(deleteBtn)
     document.querySelector('.content .collectionPage').appendChild(card)
   })
 }
