@@ -140,10 +140,15 @@
   width: 100%;
   height: 100%;
   z-index: -1;
+  transition: 150ms linear;
 }
 
 .popUpOverlay.use {
   z-index: 999;
+}
+
+.popUpOverlay.blur {
+  backdrop-filter: blur(3px);
 }
 
 .popUpOverlay.use > div {
@@ -199,6 +204,7 @@
   border-radius: 10px;
   background-color: var(--light-background);
   padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
 }
 
 .collectionPage .card .title,
@@ -291,4 +297,42 @@
 .hidden {
   visibility: hidden;
   display: none;
+}
+
+.questionPopUp {
+  position: absolute;
+  max-width: 500px;
+  width: 75%;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.questionPopUp > div:first-child {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 2.5px;
+  border-bottom: 1px solid var(--dark-background);
+}
+
+.questionPopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.questionPopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
 }

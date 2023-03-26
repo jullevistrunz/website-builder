@@ -54,6 +54,7 @@ document.querySelector('.popUpOverlay').addEventListener('click', function (e) {
     .querySelectorAll('.popUpOverlay > div:not(.hidden)')
     .forEach((el) => el.classList.add('hidden'))
   this.classList.remove('use')
+  this.classList.remove('blur')
 })
 
 async function loadCollectionPage() {
@@ -98,8 +99,13 @@ async function loadCollectionPage() {
       deleteBtn.disabled = true
     }
     deleteBtn.addEventListener('click', () => {
-      preload.deletePage(page)
-      goToAndReload('collection')
+      popUpQuestion(
+        `Are you sure you want to delete ${preload.getPageInfo(page).name}`,
+        () => {
+          preload.deletePage(page)
+          goToAndReload('collection')
+        }
+      )
     })
     card.appendChild(editBtn)
     card.appendChild(startBtn)
@@ -188,4 +194,19 @@ async function goTo(sidebarChild) {
 function goToAndReload(sidebarChild) {
   localStorage.setItem('goTo', sidebarChild)
   location.reload()
+}
+
+function popUpQuestion(question, cb) {
+  document.querySelector('.questionPopUp > div:first-child').innerHTML =
+    question
+  document.querySelector('.questionPopUp').classList.toggle('hidden')
+  document.querySelector('.popUpOverlay').classList.toggle('use')
+  document.querySelector('.popUpOverlay').classList.toggle('blur')
+  //remove all old eventListener
+  const oldEl = document.querySelector('.questionPopUp .answerYes')
+  const newEl = oldEl.cloneNode(true)
+  oldEl.parentNode.replaceChild(newEl, oldEl)
+  document
+    .querySelector('.questionPopUp .answerYes')
+    .addEventListener('click', cb)
 }

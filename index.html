@@ -155,8 +155,17 @@
           No Servers Running
         </div>
       </div>
+      <div class="editPage hidden"></div>
     </div>
     <div class="popUpOverlay">
+      <div class="questionPopUp hidden">
+        <div>question</div>
+        <br />
+        <button class="answerYes">Yes</button>
+        <button onclick="document.querySelector('.popUpOverlay').click()">
+          No
+        </button>
+      </div>
       <div class="settingsPopUp hidden">
         <div class="section">
           <button>Test 1</button>
