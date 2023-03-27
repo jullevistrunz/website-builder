@@ -91,6 +91,6 @@ contextBridge.exposeInMainWorld('preload', {
     })
   },
   deletePage: (page) => {
-    fs.rmdirSync(`pages/${page}`, { recursive: true, force: true })
-  }
+    fs.rmSync(`pages/${page}`, { recursive: true, force: true })
+  },
 })
