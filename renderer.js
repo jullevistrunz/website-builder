@@ -2,7 +2,6 @@ const websiteName = 'Website Builder'
 
 if (localStorage.getItem('goTo')) {
   goTo(localStorage.getItem('goTo'))
-  localStorage.removeItem('goTo')
 }
 
 document
@@ -17,7 +16,12 @@ document
   .querySelector('.sidebar .servers')
   .addEventListener('click', selectSidebarItem)
 
+document
+  .querySelector('.sidebar .edit')
+  .addEventListener('click', selectSidebarItem)
+
 function selectSidebarItem() {
+  localStorage.removeItem('goTo')
   document.querySelectorAll('.sidebar .selected').forEach((el) => {
     el.classList.remove('selected')
   })
@@ -36,6 +40,9 @@ function selectSidebarItem() {
   } else if (this.classList.contains('servers')) {
     document.querySelector('.content .serversPage').classList.remove('hidden')
     loadServersPage()
+  } else if (this.classList.contains('edit')) {
+    document.querySelector('.content .editPage').classList.remove('hidden')
+    loadEditPage()
   } else {
     location.reload()
   }
@@ -81,18 +88,24 @@ async function loadCollectionPage() {
     const editBtn = document.createElement('button')
     editBtn.classList.add('editBtn')
     editBtn.innerHTML = 'Edit'
+    editBtn.addEventListener('click', () => {
+      localStorage.setItem('pageToEdit', page)
+      goTo('edit')
+    })
     const startBtn = document.createElement('button')
     startBtn.classList.add('startBtn')
     startBtn.innerHTML = 'Start Server'
     startBtn.addEventListener('click', async () => {
       preload.startServerBat(page)
       startBtn.innerHTML = 'Starting...'
-      // making sure servers page isn't loaded before the server started 
+      // making sure servers page isn't loaded before the server started
       await new Promise((resolve) => {
         const interval = setInterval(async () => {
           preload.getRunningServers()
           await sleep(10)
-          if (JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+          if (
+            JSON.parse(localStorage.getItem('runningServers')).includes(page)
+          ) {
             resolve()
             clearInterval(interval)
           }
@@ -179,7 +192,9 @@ async function loadServersPage() {
         const interval = setInterval(async () => {
           preload.getRunningServers()
           await sleep(10)
-          if (!JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+          if (
+            !JSON.parse(localStorage.getItem('runningServers')).includes(page)
+          ) {
             resolve()
             clearInterval(interval)
           }
@@ -227,4 +242,12 @@ function popUpQuestion(question, cb) {
   document
     .querySelector('.questionPopUp .answerYes')
     .addEventListener('click', cb)
+}
+
+function loadEditPage() {
+  if (!localStorage.getItem('pageToEdit')) return goTo('collection')
+  const page = localStorage.getItem('pageToEdit')
+  localStorage.setItem('goTo', 'edit')
+  updateTitle(`Editing ${preload.getPageInfo(page).name}`)
+  //TODO the actual edit page
 }
