@@ -87,8 +87,17 @@ async function loadCollectionPage() {
     startBtn.addEventListener('click', async () => {
       preload.startServerBat(page)
       startBtn.innerHTML = 'Starting...'
-      // making sure servers page isn't loaded before the server started (sort of)
-      await sleep(2000)
+      // making sure servers page isn't loaded before the server started 
+      await new Promise((resolve) => {
+        const interval = setInterval(async () => {
+          preload.getRunningServers()
+          await sleep(10)
+          if (JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+            resolve()
+            clearInterval(interval)
+          }
+        }, 1000)
+      })
       goTo('servers')
     })
     const deleteBtn = document.createElement('button')
@@ -165,8 +174,17 @@ async function loadServersPage() {
       iframe.src = `http://localhost:${info.port}/exit?p=${info.password}`
       document.body.appendChild(iframe)
       stopBtn.innerHTML = 'Stopping...'
-      // making sure collection page isn't loaded before the server stopped (sort of)
-      await sleep(2000)
+      // making sure collection page isn't loaded before the server stopped
+      await new Promise((resolve) => {
+        const interval = setInterval(async () => {
+          preload.getRunningServers()
+          await sleep(10)
+          if (!JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+            resolve()
+            clearInterval(interval)
+          }
+        }, 1000)
+      })
       goToAndReload('collection')
     })
     card.appendChild(stopBtn)
