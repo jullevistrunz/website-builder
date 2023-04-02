@@ -259,7 +259,17 @@ function loadEditPage() {
     .forEach((el) => el.remove())
   for (let i = 0; i < views.length; i++) {
     const btn = document.createElement('button')
-    btn.innerHTML = views[i]
+    btn.innerHTML = views[i].slice(0, -1 * '.html'.length)
+    btn.addEventListener('click', function () {
+      document
+        .querySelectorAll('.content .editPage .viewsMenu button')
+        .forEach((el) => el.classList.remove('selected'))
+      this.classList.add('selected')
+
+      const iframe = document.querySelector('.editPage .viewContent iframe')
+      iframe.src = preload.getDirname() + `/pages/${page}/views/${views[i]}`
+    })
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
+  document.querySelector('.content .editPage .viewsMenu button').click()
 }
