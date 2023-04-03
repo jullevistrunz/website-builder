@@ -19,6 +19,13 @@ contextBridge.exposeInMainWorld('preload', {
   getDirname: () => {
     return __dirname
   },
+  getView: (page, view) => {
+    let file = fs
+      .readFileSync(`${__dirname}/pages/${page}/views/${view}`)
+      .toString()
+    file = file.slice(0, file.search('</body>'))
+    return file.slice(file.search('<body>') + '<body>'.length)
+  },
   createPage: (name, description) => {
     const id = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
       (
@@ -39,7 +46,7 @@ contextBridge.exposeInMainWorld('preload', {
     fs.mkdirSync(`pages/${id}/views`)
     fs.writeFileSync(
       `pages/${id}/views/main.html`,
-      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><body>Hello World</body></html>'
+      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><body><h1>Hello World</h1></body></html>'
     )
     fs.writeFileSync(
       `pages/${id}/info.json`,

@@ -397,11 +397,16 @@
   grid-area: viewContent;
 }
 
-.editPage .viewContent iframe {
-  border: none;
+.editPage .viewContent .frame {
   height: 100%;
   width: 100%;
   background-color: white;
   border-radius: 5px;
   box-shadow: 1px 1px 10px 1px var(--dark-background);
+  color: black;
+  display: inline-block;
+}
+
+.editPage .viewContent .frame * {
+  color: black;
 }

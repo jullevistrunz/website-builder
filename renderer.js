@@ -266,8 +266,8 @@ function loadEditPage() {
         .forEach((el) => el.classList.remove('selected'))
       this.classList.add('selected')
 
-      const iframe = document.querySelector('.editPage .viewContent iframe')
-      iframe.src = preload.getDirname() + `/pages/${page}/views/${views[i]}`
+      const frame = document.querySelector('.editPage .viewContent .frame')
+      frame.innerHTML = preload.getView(page, views[i])
     })
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
