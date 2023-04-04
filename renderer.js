@@ -251,11 +251,10 @@ function loadEditPage() {
   const page = localStorage.getItem('pageToEdit')
   localStorage.setItem('goTo', 'edit')
   updateTitle(`Editing ${preload.getPageInfo(page).name}`)
-  //TODO the actual edit page
   //load viewsMenu
   const views = preload.getViews(page)
   document
-    .querySelectorAll('.content .editPage button')
+    .querySelectorAll('.content .editPage .viewsMenu button')
     .forEach((el) => el.remove())
   for (let i = 0; i < views.length; i++) {
     const btn = document.createElement('button')
@@ -265,6 +264,9 @@ function loadEditPage() {
         .querySelectorAll('.content .editPage .viewsMenu button')
         .forEach((el) => el.classList.remove('selected'))
       this.classList.add('selected')
+      document
+        .querySelectorAll('.content .editPage .toolsMenu button')
+        .forEach((el) => el.classList.remove('selected'))
 
       const frame = document.querySelector('.editPage .viewContent .frame')
       frame.innerHTML = preload.getView(page, views[i])
@@ -272,4 +274,28 @@ function loadEditPage() {
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
   document.querySelector('.content .editPage .viewsMenu button').click()
+
+  document
+    .querySelector('.content .editPage .toolsMenu .rmElBtn')
+    .addEventListener('click', function () {
+      document
+        .querySelectorAll('.content .editPage .toolsMenu button')
+        .forEach((el) => el.classList.remove('selected'))
+      this.classList.add('selected')
+      document
+        .querySelectorAll('.content .editPage .viewContent .frame *')
+        .forEach((el) => {
+          el.classList.add('highlightOnHover')
+          el.addEventListener('click', function () {
+            popUpQuestion(
+              'Are you sure you want to delete this element?',
+              () => {
+                this.remove()
+                document.querySelector('.popUpOverlay').click()
+              }
+            )
+          })
+        })
+    })
+  //TODO add element list in overlay; add save page
 }

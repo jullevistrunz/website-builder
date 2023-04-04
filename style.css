@@ -373,7 +373,8 @@
   border-bottom: var(--dark-background) 1px solid;
 }
 
-.editPage .viewsMenu button {
+.editPage .viewsMenu button,
+.editPage .toolsMenu button {
   background-color: var(--light-background);
   border: 1px transparent solid;
   border-radius: 5px;
@@ -384,12 +385,14 @@
   cursor: pointer;
 }
 
-.editPage .viewsMenu button:hover {
+.editPage .viewsMenu button:hover,
+.editPage .toolsMenu button:hover {
   background-color: var(--main-background);
   border-color: var(--dark-background);
 }
 
-.editPage .viewsMenu button.selected {
+.editPage .viewsMenu button.selected,
+.editPage .toolsMenu button.selected {
   color: var(--color);
 }
 
@@ -409,4 +412,12 @@
 
 .editPage .viewContent .frame * {
   color: black;
+}
+
+.editPage .viewContent .frame .highlightOnHover {
+  cursor: pointer;
+}
+
+.editPage .viewContent .frame .highlightOnHover:hover {
+  background-color: red;
 }
