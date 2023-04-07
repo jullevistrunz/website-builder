@@ -385,10 +385,16 @@
   cursor: pointer;
 }
 
-.editPage .viewsMenu button:hover,
-.editPage .toolsMenu button:hover {
+.editPage .viewsMenu button:not(:disabled):hover,
+.editPage .toolsMenu button:not(:disabled):hover {
   background-color: var(--main-background);
   border-color: var(--dark-background);
+}
+
+.editPage .viewsMenu button:disabled,
+.editPage .toolsMenu button:disabled {
+  color: var(--dark-text);
+  cursor: not-allowed;
 }
 
 .editPage .viewsMenu button.selected,

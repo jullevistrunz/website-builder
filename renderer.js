@@ -259,7 +259,9 @@ function loadEditPage() {
   for (let i = 0; i < views.length; i++) {
     const btn = document.createElement('button')
     btn.innerHTML = views[i].slice(0, -1 * '.html'.length)
+    btn.id = `viewBtn:${views[i]}`
     btn.addEventListener('click', function () {
+      localStorage.setItem('viewToEdit', views[i])
       document
         .querySelectorAll('.content .editPage .viewsMenu button')
         .forEach((el) => el.classList.remove('selected'))
@@ -270,11 +272,21 @@ function loadEditPage() {
 
       const frame = document.querySelector('.editPage .viewContent .frame')
       frame.innerHTML = preload.getView(page, views[i])
+      document.querySelector(
+        '.content .editPage .toolsMenu .savePageBtn'
+      ).disabled = !document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML
     })
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
-  document.querySelector('.content .editPage .viewsMenu button').click()
-
+  if (localStorage.getItem('viewToEdit')) {
+    document
+      .getElementById(`viewBtn:${localStorage.getItem('viewToEdit')}`)
+      .click()
+  } else {
+    document.querySelector('.content .editPage .viewsMenu button').click()
+  }
   document
     .querySelector('.content .editPage .toolsMenu .rmElBtn')
     .addEventListener('click', function () {
@@ -291,6 +303,11 @@ function loadEditPage() {
               'Are you sure you want to delete this element?',
               () => {
                 this.remove()
+                document.querySelector(
+                  '.content .editPage .toolsMenu .savePageBtn'
+                ).disabled = !document.querySelector(
+                  '.content .editPage .viewContent .frame'
+                ).innerHTML
                 document.querySelector('.popUpOverlay').click()
               }
             )
@@ -298,4 +315,13 @@ function loadEditPage() {
         })
     })
   //TODO add element list in overlay; add save page
+  document
+    .querySelector('.content .editPage .toolsMenu .savePageBtn')
+    .addEventListener('click', function () {
+      const currentFrame = document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML
+      console.log(currentFrame)
+      // goToAndReload('edit')
+    })
 }
