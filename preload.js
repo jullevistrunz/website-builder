@@ -87,6 +87,18 @@ contextBridge.exposeInMainWorld('preload', {
       console.info(page + ': child process exited with code ' + code)
     })
   },
+  createCmdProcess: (origin, cmd) => {
+    const ls = childProcess.spawn('cmd.exe', ['/c', cmd])
+    ls.stdout.on('data', function (data) {
+      console.info(origin + ': stdout: ' + data)
+    })
+    ls.stderr.on('data', function (data) {
+      console.error(origin + ': stderr: ' + data)
+    })
+    ls.on('exit', function (code) {
+      console.info(origin + ': child process exited with code ' + code)
+    })
+  },
   getRunningServers: () => {
     localStorage.setItem('runningServers', '[]')
     fs.readdirSync('pages').forEach((page) => {
@@ -110,5 +122,16 @@ contextBridge.exposeInMainWorld('preload', {
   },
   deletePage: (page) => {
     fs.rmSync(`pages/${page}`, { recursive: true, force: true })
+  },
+  getPlugins: () => {
+    return fs.readdirSync('plugins')
+  },
+  writeFile: (fileName, content) => {
+    fs.writeFileSync(fileName, content)
+  },
+  clearTemp: () => {
+    fs.readdirSync('temp').forEach((file) => {
+      fs.rmSync(`temp/${file}`)
+    })
   },
 })

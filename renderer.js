@@ -4,6 +4,9 @@ if (localStorage.getItem('goTo')) {
   goTo(localStorage.getItem('goTo'))
 }
 
+//clear temp folder
+preload.clearTemp()
+
 document
   .querySelector('.sidebar .create')
   .addEventListener('click', selectSidebarItem)
@@ -288,31 +291,23 @@ function loadEditPage() {
     document.querySelector('.content .editPage .viewsMenu button').click()
   }
   document
-    .querySelector('.content .editPage .toolsMenu .rmElBtn')
+    .querySelector('.content .editPage .toolsMenu .viewSrcCodeBtn')
     .addEventListener('click', function () {
-      document
-        .querySelectorAll('.content .editPage .toolsMenu button')
-        .forEach((el) => el.classList.remove('selected'))
-      this.classList.add('selected')
-      document
-        .querySelectorAll('.content .editPage .viewContent .frame *')
-        .forEach((el) => {
-          el.classList.add('highlightOnHover')
-          el.addEventListener('click', function () {
-            popUpQuestion(
-              'Are you sure you want to delete this element?',
-              () => {
-                this.remove()
-                document.querySelector(
-                  '.content .editPage .toolsMenu .savePageBtn'
-                ).disabled = !document.querySelector(
-                  '.content .editPage .viewContent .frame'
-                ).innerHTML
-                document.querySelector('.popUpOverlay').click()
-              }
-            )
-          })
-        })
+      const id = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+        (
+          c ^
+          (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+        ).toString(16)
+      )
+      preload.writeFile(
+        `temp/${id}.html`,
+        document.querySelector('.content .editPage .viewContent .frame')
+          .innerHTML
+      )
+      preload.createCmdProcess(
+        'editToolSourceCode',
+        `notepad ${preload.getDirname()}/temp/${id}.html`
+      )
     })
   //TODO add element list in overlay; add save page
   document

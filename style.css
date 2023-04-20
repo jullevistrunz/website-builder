@@ -420,10 +420,10 @@
   color: black;
 }
 
-.editPage .viewContent .frame .highlightOnHover {
+.editPage .viewContent .frame ._edit_highLightOnHover {
   cursor: pointer;
 }
 
-.editPage .viewContent .frame .highlightOnHover:hover {
+.editPage .viewContent .frame ._edit_highLightOnHover:hover {
   background-color: red;
 }
