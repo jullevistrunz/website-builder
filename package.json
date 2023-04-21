@@ -10,6 +10,6 @@
   "author": "Jul Levi Strunz",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^23.1.4"
+    "electron": "^23.2.4"
   }
 }
