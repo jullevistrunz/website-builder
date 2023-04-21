@@ -1,1 +1,6 @@
-{}
+{
+  "editPage": {
+    "viewSrcCodeProg": "notepad",
+    "deselectToolsBtn": true
+  }
+}

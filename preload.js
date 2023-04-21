@@ -46,7 +46,7 @@ contextBridge.exposeInMainWorld('preload', {
     fs.mkdirSync(`pages/${id}/views`)
     fs.writeFileSync(
       `pages/${id}/views/main.html`,
-      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><body><h1>Hello World</h1></body></html>'
+      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body><h1>Hello World</h1></body></html>'
     )
     fs.writeFileSync(
       `pages/${id}/info.json`,
@@ -65,7 +65,7 @@ contextBridge.exposeInMainWorld('preload', {
     )
     fs.writeFileSync(
       `pages/${id}/views/404.html`,
-      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>404 - Page Not Found</title></head><body><div>404 - Page Not Found</div></body></html>'
+      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>404 - Page Not Found</title></head><style>body{margin:0;}</style><body><div>404 - Page Not Found</div></body></html>'
     )
     fs.writeFileSync(
       `pages/${id}/index.js`,
@@ -126,12 +126,27 @@ contextBridge.exposeInMainWorld('preload', {
   getPlugins: () => {
     return fs.readdirSync('plugins')
   },
-  writeFile: (fileName, content) => {
-    fs.writeFileSync(fileName, content)
+  writeFile: (relativeFileName, content) => {
+    fs.writeFileSync(__dirname + '/' + relativeFileName, content)
+  },
+  makeDir: (relativeDirName) => {
+    fs.mkdirSync(__dirname + '/' + relativeDirName)
+  },
+  readDir: (relativeDirName) => {
+    return fs.readdirSync(__dirname + '/' + relativeDirName)
+  },
+  readFile: (relativeFileName) => {
+    return fs.readFileSync(__dirname + '/' + relativeFileName, 'utf-8')
+  },
+  removeFileOrDir: (relativeFileName) => {
+    fs.rmSync(__dirname + '/' + relativeFileName)
   },
   clearTemp: () => {
     fs.readdirSync('temp').forEach((file) => {
-      fs.rmSync(`temp/${file}`)
+      fs.rmSync(`temp/${file}`, { recursive: true, force: true })
     })
+  },
+  getSettings: () => {
+    return JSON.parse(fs.readFileSync('settings.json'))
   },
 })

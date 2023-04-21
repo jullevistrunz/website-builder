@@ -1,5 +1,5 @@
 new EditTool(['addElBtn'], 'Add Element', function () {
-  //TODO
+  //TODO add element list in overlay
   console.log('Add Element')
 })
 
@@ -11,12 +11,14 @@ new EditTool(['rmElBtn'], 'Remove Element', function () {
       el.addEventListener('click', function () {
         popUpQuestion('Are you sure you want to delete this element?', () => {
           this.remove()
-          document.querySelector(
-            '.content .editPage .toolsMenu .savePageBtn'
-          ).disabled = !document.querySelector(
-            '.content .editPage .viewContent .frame'
-          ).innerHTML
+          checkSaveEdit()
           document.querySelector('.popUpOverlay').click()
+
+          //save new view to temp
+          saveEditViewToTemp(
+            localStorage.getItem('pageToEdit'),
+            localStorage.getItem('viewToEdit').slice(0, -1 * '.html'.length)
+          )
         })
       })
     })

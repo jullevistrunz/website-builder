@@ -4,8 +4,11 @@ if (localStorage.getItem('goTo')) {
   goTo(localStorage.getItem('goTo'))
 }
 
-//clear temp folder
+//clear temp folder on load
 preload.clearTemp()
+
+//set editViewHistoryIndex on load
+localStorage.setItem('editViewHistoryIndex', 0)
 
 document
   .querySelector('.sidebar .create')
@@ -276,10 +279,13 @@ function loadEditPage() {
       const frame = document.querySelector('.editPage .viewContent .frame')
       frame.innerHTML = preload.getView(page, views[i])
       document.querySelector(
-        '.content .editPage .toolsMenu .savePageBtn'
+        '.content .editPage .specialToolsMenu .savePageBtn'
       ).disabled = !document.querySelector(
         '.content .editPage .viewContent .frame'
       ).innerHTML
+
+      //save loaded view to temp
+      saveEditViewToTemp(page, views[i].slice(0, -1 * '.html'.length))
     })
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
@@ -291,27 +297,124 @@ function loadEditPage() {
     document.querySelector('.content .editPage .viewsMenu button').click()
   }
   document
-    .querySelector('.content .editPage .toolsMenu .viewSrcCodeBtn')
+    .querySelector('.content .editPage .specialToolsMenu .viewSrcCodeBtn')
     .addEventListener('click', function () {
-      const id = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-        (
-          c ^
-          (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-        ).toString(16)
+      const historyIndex = parseInt(
+        localStorage.getItem('editViewHistoryIndex')
       )
-      preload.writeFile(
-        `temp/${id}.html`,
-        document.querySelector('.content .editPage .viewContent .frame')
-          .innerHTML
-      )
+      const id = `${page}-${localStorage
+        .getItem('viewToEdit')
+        .slice(0, -1 * '.html'.length)}`
+      const filePath = `temp/${id}/${
+        preload.readDir(`temp/${id}`).length - 1 - historyIndex
+      }.html`
       preload.createCmdProcess(
-        'editToolSourceCode',
-        `notepad ${preload.getDirname()}/temp/${id}.html`
+        `editToolSourceCode-${id}`,
+        `${
+          preload.getSettings().editPage.viewSrcCodeProg
+        } ${preload.getDirname()}/${filePath}`
       )
     })
-  //TODO add element list in overlay; add save page
+
   document
-    .querySelector('.content .editPage .toolsMenu .savePageBtn')
+    .querySelector('.content .editPage .toolsMenu .deselectBtn')
+    .addEventListener('click', function () {
+      const oldEl = document.querySelector(
+        '.content .editPage .viewContent .frame'
+      )
+      document
+        .querySelectorAll('.content .editPage .viewContent .frame *')
+        .forEach((el) => {
+          for (let i = 0; i < el.classList.length; i++) {
+            if (el.classList[i].startsWith('_edit_')) {
+              el.classList.remove(el.classList[i])
+            }
+          }
+        })
+      const newEl = oldEl.cloneNode(true)
+      oldEl.parentNode.replaceChild(newEl, oldEl)
+      document
+        .querySelectorAll('.content .editPage .toolsMenu button')
+        .forEach((el) => el.classList.remove('selected'))
+    })
+
+  preload.getSettings().editPage.deselectToolsBtn
+    ? document
+        .querySelector('.content .editPage .toolsMenu .deselectBtn')
+        .classList.remove('hidden')
+    : document
+        .querySelector('.content .editPage .toolsMenu .deselectBtn')
+        .classList.add('hidden')
+
+  document
+    .querySelector('.content .editPage .specialToolsMenu .undoBtn')
+    .addEventListener('click', function () {
+      const page = localStorage.getItem('pageToEdit')
+      const view = localStorage
+        .getItem('viewToEdit')
+        .slice(0, -1 * '.html'.length)
+      const historyLength = preload.readDir(`temp/${page}-${view}`).length
+      let historyIndex = parseInt(localStorage.getItem('editViewHistoryIndex'))
+      document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML = preload.readFile(
+        `temp/${page}-${view}/${historyLength - historyIndex - 2}.html`
+      )
+      historyIndex++
+      localStorage.setItem('editViewHistoryIndex', historyIndex)
+
+      document.querySelector(
+        '.content .editPage .specialToolsMenu .undoBtn'
+      ).disabled = historyLength - historyIndex <= 1
+      document.querySelector(
+        '.content .editPage .specialToolsMenu .redoBtn'
+      ).disabled = !(historyIndex > 0)
+
+      document.querySelector(
+        '.content .editPage .specialToolsMenu .savePageBtn'
+      ).disabled = !document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML
+      checkSaveEdit()
+      deselectEditTools()
+    })
+
+  document
+    .querySelector('.content .editPage .specialToolsMenu .redoBtn')
+    .addEventListener('click', function () {
+      const page = localStorage.getItem('pageToEdit')
+      const view = localStorage
+        .getItem('viewToEdit')
+        .slice(0, -1 * '.html'.length)
+      const historyLength = preload.readDir(`temp/${page}-${view}`).length
+      let historyIndex = parseInt(localStorage.getItem('editViewHistoryIndex'))
+      document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML = preload.readFile(
+        `temp/${page}-${view}/${historyLength - historyIndex}.html`
+      )
+      historyIndex--
+      localStorage.setItem('editViewHistoryIndex', historyIndex)
+
+      document.querySelector(
+        '.content .editPage .specialToolsMenu .undoBtn'
+      ).disabled = historyLength - historyIndex <= 1
+      document.querySelector(
+        '.content .editPage .specialToolsMenu .redoBtn'
+      ).disabled = !(historyIndex > 0)
+
+      document.querySelector(
+        '.content .editPage .specialToolsMenu .savePageBtn'
+      ).disabled = !document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML
+      checkSaveEdit()
+      deselectEditTools()
+    })
+
+  //TODO: save page
+  document
+    .querySelector('.content .editPage .specialToolsMenu .savePageBtn')
     .addEventListener('click', function () {
       const currentFrame = document.querySelector(
         '.content .editPage .viewContent .frame'
@@ -319,4 +422,50 @@ function loadEditPage() {
       console.log(currentFrame)
       // goToAndReload('edit')
     })
+}
+
+function saveEditViewToTemp(page, view) {
+  const id = `${page}-${view}`
+  try {
+    preload.readDir(`temp/${id}`)
+  } catch {
+    preload.makeDir(`temp/${id}`)
+  }
+
+  let historyIndex = parseInt(localStorage.getItem('editViewHistoryIndex'))
+  const historyLength0 = preload.readDir(`temp/${id}`).length
+
+  if (historyIndex > 0) {
+    for (let i = 0; i < historyIndex; i++) {
+      preload.removeFileOrDir(`temp/${id}/${historyLength0 - i - 1}.html`)
+    }
+    historyIndex = 0
+    localStorage.setItem('editViewHistoryIndex', historyIndex)
+  }
+
+  const filePath = `temp/${id}/${preload.readDir(`temp/${id}`).length}.html`
+  preload.writeFile(
+    filePath,
+    document.querySelector('.content .editPage .viewContent .frame').innerHTML
+  )
+  const historyLength = preload.readDir(`temp/${id}`).length
+
+  document.querySelector(
+    '.content .editPage .specialToolsMenu .undoBtn'
+  ).disabled = historyLength - historyIndex <= 1
+  document.querySelector(
+    '.content .editPage .specialToolsMenu .redoBtn'
+  ).disabled = !(historyIndex > 0)
+}
+
+function deselectEditTools() {
+  document.querySelector('.content .editPage .toolsMenu .deselectBtn').click()
+}
+
+function checkSaveEdit() {
+  document.querySelector(
+    '.content .editPage .specialToolsMenu .savePageBtn'
+  ).disabled = !/[A-Za-z0-9]/.test(
+    document.querySelector('.content .editPage .viewContent .frame').innerHTML
+  )
 }

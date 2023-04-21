@@ -2,6 +2,7 @@ const files = preload.getPlugins()
 for (let i = 0; i < files.length; i++) {
   const el = document.createElement('script')
   el.src = 'plugins/' + files[i]
+  el.defer = true
   document.body.appendChild(el)
 }
 
@@ -19,18 +20,22 @@ class EditTool {
       document
         .querySelectorAll('.content .editPage .viewContent .frame *')
         .forEach((el) => {
-          el.classList.remove('highlightOnHover')
+          for (let i = 0; i < el.classList.length; i++) {
+            if (el.classList[i].startsWith('_edit_')) {
+              el.classList.remove(el.classList[i])
+            }
+          }
         })
       const newEl = oldEl.cloneNode(true)
       oldEl.parentNode.replaceChild(newEl, oldEl)
       document
-        .querySelectorAll('.content .editPage .toolsMenu .otherTools button')
+        .querySelectorAll('.content .editPage .toolsMenu button')
         .forEach((el) => el.classList.remove('selected'))
       btn.classList.add('selected')
       cb()
     })
     document
-      .querySelector('.content .editPage .toolsMenu .otherTools')
+      .querySelector('.content .editPage .toolsMenu')
       .appendChild(btn)
   }
 }
