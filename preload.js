@@ -146,6 +146,9 @@ contextBridge.exposeInMainWorld('preload', {
       fs.rmSync(`temp/${file}`, { recursive: true, force: true })
     })
   },
+  clearTempSpecific: (file) => {
+    fs.rmSync(`temp/${file}`, { recursive: true, force: true })
+  },
   getSettings: () => {
     localStorage.setItem('settings', fs.readFileSync('settings.json'))
     return JSON.parse(fs.readFileSync('settings.json'))

@@ -34,8 +34,10 @@ class EditTool {
       btn.classList.add('selected')
       cb()
     })
-    document
-      .querySelector('.content .editPage .toolsMenu')
-      .appendChild(btn)
+    document.querySelector('.content .editPage .toolsMenu').appendChild(btn)
+  }
+
+  load(cb) {
+    cb()
   }
 }

@@ -1,4 +1,5 @@
 const websiteName = 'Website Builder'
+let openPage = ''
 
 if (localStorage.getItem('goTo')) {
   goTo(localStorage.getItem('goTo'))
@@ -27,31 +28,45 @@ document
   .addEventListener('click', selectSidebarItem)
 
 function selectSidebarItem() {
-  localStorage.removeItem('goTo')
-  document.querySelectorAll('.sidebar .selected').forEach((el) => {
-    el.classList.remove('selected')
-  })
-  this.classList.add('selected')
-  document
-    .querySelectorAll('.content > div')
-    .forEach((el) => el.classList.add('hidden'))
-  if (this.classList.contains('create')) {
-    document.querySelector('.content .createPage').classList.remove('hidden')
-    loadCreatePage()
-  } else if (this.classList.contains('collection')) {
+  const lambdaFunc = () => {
+    openPage = this.classList[0]
+    localStorage.removeItem('goTo')
+    document.querySelectorAll('.sidebar .selected').forEach((el) => {
+      el.classList.remove('selected')
+    })
+    this.classList.add('selected')
     document
-      .querySelector('.content .collectionPage')
-      .classList.remove('hidden')
-    loadCollectionPage()
-  } else if (this.classList.contains('servers')) {
-    document.querySelector('.content .serversPage').classList.remove('hidden')
-    loadServersPage()
-  } else if (this.classList.contains('edit')) {
-    document.querySelector('.content .editPage').classList.remove('hidden')
-    loadEditPage()
-  } else {
-    location.reload()
+      .querySelectorAll('.content > div')
+      .forEach((el) => el.classList.add('hidden'))
+    if (this.classList.contains('create')) {
+      document.querySelector('.content .createPage').classList.remove('hidden')
+      loadCreatePage()
+    } else if (this.classList.contains('collection')) {
+      document
+        .querySelector('.content .collectionPage')
+        .classList.remove('hidden')
+      loadCollectionPage()
+    } else if (this.classList.contains('servers')) {
+      document.querySelector('.content .serversPage').classList.remove('hidden')
+      loadServersPage()
+    } else if (this.classList.contains('edit')) {
+      document.querySelector('.content .editPage').classList.remove('hidden')
+      loadEditPage()
+    } else {
+      location.reload()
+    }
   }
+  // warn before exit on editPage
+  if (openPage == 'edit') {
+    popUpQuestion(
+      'Are you sure you want to exit. All changes will be removed.',
+      () => {
+        lambdaFunc()
+      }
+    )
+    return
+  }
+  lambdaFunc()
 }
 
 document
@@ -249,7 +264,10 @@ function popUpQuestion(question, cb) {
   oldEl.parentNode.replaceChild(newEl, oldEl)
   document
     .querySelector('.questionPopUp .answerYes')
-    .addEventListener('click', cb)
+    .addEventListener('click', () => {
+      cb()
+      document.querySelector('.popUpOverlay').click()
+    })
 }
 
 function loadEditPage() {
@@ -267,25 +285,45 @@ function loadEditPage() {
     btn.innerHTML = views[i].slice(0, -1 * '.html'.length)
     btn.id = `viewBtn:${views[i]}`
     btn.addEventListener('click', function () {
-      localStorage.setItem('viewToEdit', views[i])
-      document
-        .querySelectorAll('.content .editPage .viewsMenu button')
-        .forEach((el) => el.classList.remove('selected'))
-      this.classList.add('selected')
-      document
-        .querySelectorAll('.content .editPage .toolsMenu button')
-        .forEach((el) => el.classList.remove('selected'))
+      const lambdaFunc = () => {
+        localStorage.setItem('viewToEdit', views[i])
+        document
+          .querySelectorAll('.content .editPage .viewsMenu button')
+          .forEach((el) => el.classList.remove('selected'))
+        this.classList.add('selected')
+        document
+          .querySelectorAll('.content .editPage .toolsMenu button')
+          .forEach((el) => el.classList.remove('selected'))
 
-      const frame = document.querySelector('.editPage .viewContent .frame')
-      frame.innerHTML = preload.getView(page, views[i])
-      document.querySelector(
-        '.content .editPage .specialToolsMenu .savePageBtn'
-      ).disabled = !document.querySelector(
-        '.content .editPage .viewContent .frame'
-      ).innerHTML
+        const frame = document.querySelector('.editPage .viewContent .frame')
+        frame.innerHTML = preload.getView(page, views[i])
+        document.querySelector(
+          '.content .editPage .specialToolsMenu .savePageBtn'
+        ).disabled = !document.querySelector(
+          '.content .editPage .viewContent .frame'
+        ).innerHTML
 
-      //save loaded view to temp
-      saveEditViewToTemp(page, views[i].slice(0, -1 * '.html'.length))
+        //save loaded view to temp
+        preload.clearTempSpecific(
+          `${page}-${views[i].slice(0, -1 * '.html'.length)}`
+        )
+        saveEditViewToTemp(page, views[i].slice(0, -1 * '.html'.length))
+      }
+      try {
+        if (
+          preload.readDir(`temp/${page}-${localStorage.getItem('viewToEdit').slice(0, -1 * '.html'.length)}`)
+            .length > 1
+        ) {
+          popUpQuestion(
+            'Are you sure you want to exit. All changes will be removed.',
+            () => {
+              lambdaFunc()
+            }
+          )
+          return
+        }
+      } catch {}
+      lambdaFunc()
     })
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
@@ -315,36 +353,6 @@ function loadEditPage() {
         } ${preload.getDirname()}/${filePath}`
       )
     })
-
-  document
-    .querySelector('.content .editPage .toolsMenu .deselectBtn')
-    .addEventListener('click', function () {
-      const oldEl = document.querySelector(
-        '.content .editPage .viewContent .frame'
-      )
-      document
-        .querySelectorAll('.content .editPage .viewContent .frame *')
-        .forEach((el) => {
-          for (let i = 0; i < el.classList.length; i++) {
-            if (el.classList[i].startsWith('_edit_')) {
-              el.classList.remove(el.classList[i])
-            }
-          }
-        })
-      const newEl = oldEl.cloneNode(true)
-      oldEl.parentNode.replaceChild(newEl, oldEl)
-      document
-        .querySelectorAll('.content .editPage .toolsMenu button')
-        .forEach((el) => el.classList.remove('selected'))
-    })
-
-  JSON.parse(localStorage.getItem('settings')).editPage.deselectToolsBtn
-    ? document
-        .querySelector('.content .editPage .toolsMenu .deselectBtn')
-        .classList.remove('hidden')
-    : document
-        .querySelector('.content .editPage .toolsMenu .deselectBtn')
-        .classList.add('hidden')
 
   document
     .querySelector('.content .editPage .specialToolsMenu .undoBtn')
