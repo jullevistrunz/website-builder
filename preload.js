@@ -147,6 +147,7 @@ contextBridge.exposeInMainWorld('preload', {
     })
   },
   getSettings: () => {
+    localStorage.setItem('settings', fs.readFileSync('settings.json'))
     return JSON.parse(fs.readFileSync('settings.json'))
   },
 })

@@ -311,7 +311,7 @@ function loadEditPage() {
       preload.createCmdProcess(
         `editToolSourceCode-${id}`,
         `${
-          preload.getSettings().editPage.viewSrcCodeProg
+          JSON.parse(localStorage.getItem('settings')).editPage.viewSrcCodeProg
         } ${preload.getDirname()}/${filePath}`
       )
     })
@@ -338,7 +338,7 @@ function loadEditPage() {
         .forEach((el) => el.classList.remove('selected'))
     })
 
-  preload.getSettings().editPage.deselectToolsBtn
+  JSON.parse(localStorage.getItem('settings')).editPage.deselectToolsBtn
     ? document
         .querySelector('.content .editPage .toolsMenu .deselectBtn')
         .classList.remove('hidden')
