@@ -59,9 +59,11 @@ function selectSidebarItem() {
   // warn before exit on editPage
   if (openPage == 'edit') {
     popUpQuestion(
-      'Are you sure you want to exit. All changes will be removed.',
+      'Are you sure you want to exit? All changes will be removed!',
       () => {
         lambdaFunc()
+        localStorage.removeItem('pageToEdit')
+        localStorage.removeItem('viewToEdit')
         preload.clearTemp()
       }
     )
@@ -145,7 +147,7 @@ async function loadCollectionPage() {
     }
     deleteBtn.addEventListener('click', () => {
       popUpQuestion(
-        `Are you sure you want to delete ${preload.getPageInfo(page).name}`,
+        `Are you sure you want to delete ${preload.getPageInfo(page).name}?`,
         () => {
           preload.deletePage(page)
           goToAndReload('collection')
@@ -320,7 +322,7 @@ function loadEditPage() {
           ).length > 1
         ) {
           popUpQuestion(
-            'Are you sure you want to switch views. All changes will be removed.',
+            'Are you sure you want to switch views? All changes will be removed!',
             () => {
               lambdaFunc()
             }
@@ -424,16 +426,30 @@ function loadEditPage() {
       checkSaveEdit()
       deselectEditTools()
     })
-
-  //TODO: save page
   document
     .querySelector('.content .editPage .specialToolsMenu .savePageBtn')
     .addEventListener('click', function () {
-      const currentFrame = document.querySelector(
-        '.content .editPage .viewContent .frame'
-      ).innerHTML
-      console.log(currentFrame)
-      // goToAndReload('edit')
+      popUpQuestion('Are you sure you want to save and exit?', function () {
+        document
+          .querySelectorAll('.content .editPage .viewContent .frame *')
+          .forEach((el) => {
+            for (let i = 0; i < el.classList.length; i++) {
+              if (el.classList[i].startsWith('_edit_')) {
+                el.classList.remove(el.classList[i])
+              }
+            }
+          })
+        const currentFrame = document.querySelector(
+          '.content .editPage .viewContent .frame'
+        ).innerHTML
+        const view = localStorage.getItem('viewToEdit')
+        const file = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body>${currentFrame}</body></html>`
+        preload.writeFile(`pages/${page}/views/${view}`, file)
+        localStorage.removeItem('editViewHistoryIndex')
+        localStorage.removeItem('pageToEdit')
+        localStorage.removeItem('viewToEdit')
+        goToAndReload('collection')
+      })
     })
 }
 
@@ -493,6 +509,7 @@ document
 document
   .querySelector('.header .windowControls .restoreWindow')
   .addEventListener('click', function () {
+    this.title = this.title == 'Maximize' ? 'Restore' : 'Maximize'
     windowControls.restore()
   })
 
