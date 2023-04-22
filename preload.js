@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron')
+const { contextBridge, ipcRenderer } = require('electron')
 const childProcess = require('child_process')
 const fs = require('fs')
 const net = require('net')
@@ -152,5 +152,17 @@ contextBridge.exposeInMainWorld('preload', {
   getSettings: () => {
     localStorage.setItem('settings', fs.readFileSync('settings.json'))
     return JSON.parse(fs.readFileSync('settings.json'))
+  },
+})
+
+contextBridge.exposeInMainWorld('windowControls', {
+  close: () => {
+    ipcRenderer.send('closeWindow')
+  },
+  minimize: () => {
+    ipcRenderer.send('minimizeWindow')
+  },
+  restore: () => {
+    ipcRenderer.send('restoreWindow')
   },
 })

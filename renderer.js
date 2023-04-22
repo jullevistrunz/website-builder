@@ -62,6 +62,7 @@ function selectSidebarItem() {
       'Are you sure you want to exit. All changes will be removed.',
       () => {
         lambdaFunc()
+        preload.clearTemp()
       }
     )
     return
@@ -307,15 +308,19 @@ function loadEditPage() {
         preload.clearTempSpecific(
           `${page}-${views[i].slice(0, -1 * '.html'.length)}`
         )
+        localStorage.setItem('editViewHistoryIndex', 0)
         saveEditViewToTemp(page, views[i].slice(0, -1 * '.html'.length))
       }
       try {
         if (
-          preload.readDir(`temp/${page}-${localStorage.getItem('viewToEdit').slice(0, -1 * '.html'.length)}`)
-            .length > 1
+          preload.readDir(
+            `temp/${page}-${localStorage
+              .getItem('viewToEdit')
+              .slice(0, -1 * '.html'.length)}`
+          ).length > 1
         ) {
           popUpQuestion(
-            'Are you sure you want to exit. All changes will be removed.',
+            'Are you sure you want to switch views. All changes will be removed.',
             () => {
               lambdaFunc()
             }
@@ -477,3 +482,22 @@ function checkSaveEdit() {
     document.querySelector('.content .editPage .viewContent .frame').innerHTML
   )
 }
+
+// window controls
+document
+  .querySelector('.header .windowControls .minimizeWindow')
+  .addEventListener('click', function () {
+    windowControls.minimize()
+  })
+
+document
+  .querySelector('.header .windowControls .restoreWindow')
+  .addEventListener('click', function () {
+    windowControls.restore()
+  })
+
+document
+  .querySelector('.header .windowControls .closeWindow')
+  .addEventListener('click', function () {
+    windowControls.close()
+  })
