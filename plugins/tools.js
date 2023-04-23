@@ -19,7 +19,9 @@ new EditTool(['addElBtn'], 'Add Element', function () {
 
 new EditTool(['rmElBtn'], 'Remove Element', function () {
   document
-    .querySelectorAll('.content .editPage .viewContent .frame *')
+    .querySelectorAll(
+      '.content .editPage .viewContent .frame *:not(._editPlaceHolder)'
+    )
     .forEach((el) => {
       el.classList.add('_edit_highLightOnHover')
       el.addEventListener('click', function () {

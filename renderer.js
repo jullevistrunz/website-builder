@@ -353,6 +353,13 @@ function loadEditPage() {
       const filePath = `temp/${id}/${
         preload.readDir(`temp/${id}`).length - 1 - historyIndex
       }.html`
+      if (
+        JSON.parse(localStorage.getItem('settings')).editPage.viewSrcCodeProg ==
+        'native'
+      ) {
+        openViewSourceCode(preload.readFile(filePath))
+        return
+      }
       preload.createCmdProcess(
         `editToolSourceCode-${id}`,
         `${
@@ -518,3 +525,101 @@ document
   .addEventListener('click', function () {
     windowControls.close()
   })
+
+function openViewSourceCode(view) {
+  //add new line after each element
+  const rawText = view
+  const arr = rawText.split(/(?=[<>])|(?<=[<>])/)
+  if (arr.length < 6) return
+  const arr2 = []
+  const arr3 = []
+  const arr4 = []
+  const isClosingTagArr = []
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == '<') {
+      arr2.push(arr[i] + arr[i + 1] + arr[i + 2])
+      arr3.push(arr[i] + arr[i + 1] + arr[i + 2])
+      arr4.push(arr[i] + arr[i + 1] + arr[i + 2])
+      i += 2
+    } else {
+      arr2.push(arr[i])
+      arr3.push(arr[i])
+      arr4.push(arr[i])
+    }
+  }
+  for (let i = 0; i < arr2.length; i++) {
+    if (arr2[i].startsWith('</')) {
+      isClosingTagArr[i] = true
+    } else {
+      isClosingTagArr[i] = false
+    }
+  }
+  for (let i = 0; i < arr2.length; i++) {
+    arr2[i] += '\n'
+  }
+  for (let i = 0; i < arr2.length; i++) {
+    for (let j = i; !isClosingTagArr[j]; j++) {
+      if (isClosingTagArr[j + 1]) {
+        continue
+      }
+      arr2[j] += '\t'
+    }
+  }
+  arr3.reverse()
+  const isClosingTagArrReverse = isClosingTagArr.reverse()
+  for (let i = 0; i < arr3.length; i++) {
+    for (let j = i + 1; isClosingTagArrReverse[j - 1]; j++) {
+      if (arr4[arr4.length - i - 2].endsWith('>')) {
+        if (!isClosingTagArr[j]) {
+          continue
+        }
+        arr2[arr2.length - j - 2] += '\t'
+      }
+    }
+  }
+  document.querySelector(
+    '.popUpOverlay .viewSourceCodePopUp .codeBox pre code'
+  ).innerHTML = htmlEntities.encode(arr2.join(''))
+  document
+    .querySelector('.popUpOverlay .viewSourceCodePopUp')
+    .classList.toggle('hidden')
+  document.querySelector('.popUpOverlay').classList.toggle('use')
+  document.querySelector('.popUpOverlay').classList.toggle('blur')
+  const oldEl = document.querySelector(
+    '.popUpOverlay .viewSourceCodePopUp .closeBtn'
+  )
+  const newEl = oldEl.cloneNode(true)
+  oldEl.parentNode.replaceChild(newEl, oldEl)
+  document
+    .querySelector('.popUpOverlay .viewSourceCodePopUp .closeBtn')
+    .addEventListener('click', function () {
+      document.querySelector('.popUpOverlay').click()
+    })
+  Prism.highlightAll()
+}
+
+// encode html entities https://ourcodeworld.com/articles/read/188/encode-and-decode-html-entities-using-pure-javascript
+const htmlEntities = {
+  /**
+   * Converts a string to its html characters completely.
+   *
+   * @param {String} str String with unescaped HTML characters
+   **/
+  encode: function (str) {
+    var buf = []
+    for (var i = str.length - 1; i >= 0; i--) {
+      buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''))
+    }
+    return buf.join('')
+  },
+  /**
+   * Converts an html characterSet into its original character.
+   *
+   * @param {String} str htmlSet entities
+   **/
+  decode: function (str) {
+    return str.replace(/&#(\d+);/g, function (match, dec) {
+      return String.fromCharCode(dec)
+    })
+  },
+}

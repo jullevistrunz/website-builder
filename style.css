@@ -468,6 +468,7 @@
   box-shadow: 1px 1px 10px 1px var(--dark-background);
   color: black;
   display: inline-block;
+  overflow: scroll;
 }
 
 .editPage .viewContent .frame * {
@@ -480,4 +481,39 @@
 
 .editPage .viewContent .frame ._edit_highLightOnHover:hover {
   background-color: red;
+}
+
+.viewSourceCodePopUp {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  right: 50px;
+  bottom: 50px;
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.viewSourceCodePopUp pre {
+  height: calc(100vh - 212px);
+  border-radius: 5px;
+}
+
+.viewSourceCodePopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.viewSourceCodePopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
 }
