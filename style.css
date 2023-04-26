@@ -498,6 +498,10 @@
 .viewSourceCodePopUp pre {
   height: calc(100vh - 212px);
   border-radius: 5px;
+  overflow: scroll;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--main-background);
 }
 
 .viewSourceCodePopUp button {
@@ -516,4 +520,28 @@
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+}
+
+code * {
+  display: inline;
+}
+
+code .tag {
+  color: crimson;
+}
+
+code .symbol {
+  color: aqua;
+}
+
+code .attribute {
+  color: darkorchid;
+}
+
+code .value {
+  color: limegreen;
+}
+
+code .text {
+  color: white;
 }

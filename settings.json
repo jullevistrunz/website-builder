@@ -1,6 +1,10 @@
 {
   "editPage": {
-    "viewSrcCodeProg": "native",
-    "deselectToolsBtn": true
+    "deselectToolsBtn": true,
+    "viewSourceCode": {
+      "prog": "native",
+      "fontFamily": "'Dank Mono', Consolas",
+      "tabSize": "40px"
+    }
   }
 }

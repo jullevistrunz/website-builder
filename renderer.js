@@ -354,8 +354,8 @@ function loadEditPage() {
         preload.readDir(`temp/${id}`).length - 1 - historyIndex
       }.html`
       if (
-        JSON.parse(localStorage.getItem('settings')).editPage.viewSrcCodeProg ==
-        'native'
+        JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode
+          .prog == 'native'
       ) {
         openViewSourceCode(preload.readFile(filePath))
         return
@@ -363,7 +363,8 @@ function loadEditPage() {
       preload.createCmdProcess(
         `editToolSourceCode-${id}`,
         `${
-          JSON.parse(localStorage.getItem('settings')).editPage.viewSrcCodeProg
+          JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode
+            .prog
         } ${preload.getDirname()}/${filePath}`
       )
     })
@@ -577,9 +578,72 @@ function openViewSourceCode(view) {
       }
     }
   }
+  for (let i = 0; i < arr2.length; i++) {
+    if (arr2[i].startsWith('</')) {
+      const arr5 = arr2[i].split(/(?=[<>])|(?<=[<>])/)
+      for (let j = 0; j < arr5.length; j++) {
+        if (arr5[j] == '<' || arr5[j] == '>') {
+          arr5[j] = `<div class="symbol">${htmlEntities.encode(arr5[j])}</div>`
+        } else {
+          if (arr5[j].startsWith('/')) {
+            arr5[j] = arr5[j].split('/').join('')
+            arr5[j] = `<div class="symbol">${htmlEntities.encode(
+              '/'
+            )}</div><div class="tag">${htmlEntities.encode(arr5[j])}</div>`
+          }
+        }
+      }
+      arr2[i] = arr5.join('')
+    } else if (arr2[i].startsWith('<')) {
+      const arr5 = arr2[i].split(/(?=[<>])|(?<=[<>])/)
+      for (let j = 0; j < arr5.length; j++) {
+        if (arr5[j] == '<' || arr5[j] == '>') {
+          arr5[j] = `<div class="symbol">${htmlEntities.encode(arr5[j])}</div>`
+        } else {
+          const arr6 = arr5[j].split(' ')
+          arr6[0] = `<div class="tag">${htmlEntities.encode(arr6[0])}</div>`
+          const arr7 = []
+          for (let k = 1; k < arr6.length; k++) {
+            arr7.push(arr6[k])
+          }
+          for (let k = 0; k < arr7.length; k++) {
+            const arr8 = arr7[k].split('=')
+            arr8[0] = ` <i class="attribute">${htmlEntities.encode(
+              arr8[0]
+            )}</i>`
+            arr8[1] = arr8[1].split('"').join('')
+            arr8[1] = `<div class="symbol">${htmlEntities.encode(
+              '"'
+            )}</div><div class="value">${
+              arr8[1]
+            }</div><div class="symbol">${htmlEntities.encode('"')}</div>`
+            arr7[k] = arr8.join(
+              `<div class="symbol">${htmlEntities.encode('=')}</div>`
+            )
+          }
+          arr5[j] = [arr6[0], ...arr7].join('')
+        }
+      }
+      arr2[i] = arr5.join('')
+    } else {
+      arr2[i] = `<div class="text">${htmlEntities.encode(arr2[i])}</div>`
+    }
+  }
+  const text = arr2.join('')
+
+  const styleEl = document.createElement('style')
+  styleEl.innerHTML = `.viewSourceCodePopUp code * {font-family: ${
+    JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode
+      .fontFamily
+  }; tab-size: ${
+    JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode.tabSize
+  };}`
+  document.body.appendChild(styleEl)
+
   document.querySelector(
     '.popUpOverlay .viewSourceCodePopUp .codeBox pre code'
-  ).innerHTML = htmlEntities.encode(arr2.join(''))
+  ).innerHTML = text
+
   document
     .querySelector('.popUpOverlay .viewSourceCodePopUp')
     .classList.toggle('hidden')
@@ -595,7 +659,6 @@ function openViewSourceCode(view) {
     .addEventListener('click', function () {
       document.querySelector('.popUpOverlay').click()
     })
-  Prism.highlightAll()
 }
 
 // encode html entities https://ourcodeworld.com/articles/read/188/encode-and-decode-html-entities-using-pure-javascript
