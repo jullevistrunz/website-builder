@@ -631,8 +631,9 @@ function openViewSourceCode(view) {
   }
   const text = arr2.join('')
 
-  if (document.getElementById('viewSourceCodePopUpStyles'))
+  if (document.getElementById('viewSourceCodePopUpStyles')) {
     document.getElementById('viewSourceCodePopUpStyles').remove()
+  }
   const styleEl = document.createElement('style')
   styleEl.id = 'viewSourceCodePopUpStyles'
   styleEl.innerHTML = `.viewSourceCodePopUp code * {font-family: ${
