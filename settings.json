@@ -4,6 +4,8 @@
     "viewSourceCode": {
       "prog": "native",
       "fontFamily": "'Dank Mono', Consolas",
+      "fontSize": "16px",
+      "lineHeight": "24px",
       "tabSize": "40px"
     }
   }

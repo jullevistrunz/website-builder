@@ -578,6 +578,7 @@ function openViewSourceCode(view) {
       }
     }
   }
+  //syntax highlight
   for (let i = 0; i < arr2.length; i++) {
     if (arr2[i].startsWith('</')) {
       const arr5 = arr2[i].split(/(?=[<>])|(?<=[<>])/)
@@ -630,18 +631,34 @@ function openViewSourceCode(view) {
     }
   }
   const text = arr2.join('')
+  //line numbers
+  const lines = arr2.length
+  document.querySelector(
+    '.popUpOverlay .viewSourceCodePopUp .codeBox pre .lineNumbers'
+  ).innerHTML = ''
+  for (let i = 0; i < lines; i++) {
+    document.querySelector(
+      '.popUpOverlay .viewSourceCodePopUp .codeBox pre .lineNumbers'
+    ).innerHTML += `${i + 1}\n`
+  }
 
   if (document.getElementById('viewSourceCodePopUpStyles')) {
     document.getElementById('viewSourceCodePopUpStyles').remove()
   }
   const styleEl = document.createElement('style')
   styleEl.id = 'viewSourceCodePopUpStyles'
-  styleEl.innerHTML = `.viewSourceCodePopUp code * {font-family: ${
+  styleEl.innerHTML = `.viewSourceCodePopUp code *, .viewSourceCodePopUp pre .lineNumbers {font-family: ${
     JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode
       .fontFamily
   }; tab-size: ${
     JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode.tabSize
-  };}`
+  }; font-size: ${
+    JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode
+      .fontSize
+  }; line-height: ${
+    JSON.parse(localStorage.getItem('settings')).editPage.viewSourceCode
+      .lineHeight
+  }}`
   document.body.appendChild(styleEl)
 
   document.querySelector(
