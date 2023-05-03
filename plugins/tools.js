@@ -3,7 +3,8 @@ new EditTool(['deselectBtn'], 'Deselect Tools', function () {
     .querySelector('.content .editPage .toolsMenu .deselectBtn')
     .classList.remove('selected')
 }).load(function () {
-  JSON.parse(localStorage.getItem('settings')).editPage.deselectToolsBtn
+  JSON.parse(localStorage.getItem('settings')).editPage.deselectToolsButton ==
+  'true'
     ? document
         .querySelector('.content .editPage .toolsMenu .deselectBtn')
         .classList.remove('hidden')

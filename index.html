@@ -237,18 +237,14 @@
           No
         </button>
       </div>
-      <div class="settingsPopUp hidden">
-        <div class="section">
-          <button>Test 1</button>
-          <button>Test 2</button>
-        </div>
-        <div class="section">
-          <button>Test 3</button>
-        </div>
-        <div class="section">
-          <button>Test 4</button>
-          <button>Test 5</button>
-        </div>
+      <div class="settingsPopUp hidden"></div>
+      <div class="settingsValueEditPopUp hidden">
+        <div>option</div>
+        <input />
+        <button class="changeBtn">Change</button>
+        <button onclick="document.querySelector('.popUpOverlay').click()">
+          Cancel
+        </button>
       </div>
     </div>
     <script src="renderer.js" defer></script>

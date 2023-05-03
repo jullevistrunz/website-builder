@@ -153,6 +153,9 @@ contextBridge.exposeInMainWorld('preload', {
     localStorage.setItem('settings', fs.readFileSync('settings.json'))
     return JSON.parse(fs.readFileSync('settings.json'))
   },
+  writeSettings: async (settings) => {
+    await fs.promises.writeFile('settings.json', settings)
+  },
 })
 
 contextBridge.exposeInMainWorld('windowControls', {
