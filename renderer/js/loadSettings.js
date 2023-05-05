@@ -133,7 +133,7 @@ function createValueEditPopUp(valuePath) {
         return target
       }
       const newSettings = extend({}, settings, newObj)
-      await preload.writeSettings(JSON.stringify(newSettings))
+      await preload.writeSettings(JSON.stringify(newSettings, null, 2))
       location.reload()
     })
 }
