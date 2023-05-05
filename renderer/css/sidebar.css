@@ -1,0 +1,95 @@
+.sidebar {
+  background-color: var(--light-background);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  box-shadow: 1px 0 var(--dark-background);
+  z-index: 1;
+  -webkit-app-region: drag;
+}
+
+.logo {
+  stroke: var(--main-text);
+}
+
+.sidebar .logo {
+  height: 50px;
+  width: 50px;
+  margin: 0 auto;
+}
+
+.sidebar .settings {
+  position: absolute;
+  left: 12.5px;
+  bottom: 12.5px;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+  transition: 100ms linear;
+  -webkit-app-region: no-drag;
+}
+
+.sidebar .create {
+  margin: 0 auto;
+  height: 45px;
+  width: 45px;
+  fill: var(--dark-text);
+  cursor: pointer;
+  transition: 100ms linear;
+  -webkit-app-region: no-drag;
+}
+
+.sidebar .collection {
+  margin: 0 auto;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+  transition: 100ms linear;
+  -webkit-app-region: no-drag;
+}
+
+.sidebar .servers {
+  margin: 0 auto;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+  transition: 100ms linear;
+  -webkit-app-region: no-drag;
+}
+
+.sidebar .settings:hover,
+.sidebar .create:hover,
+.sidebar .collection:hover,
+.sidebar .servers:hover {
+  fill: var(--main-text);
+}
+
+.sidebar .selected {
+  fill: var(--main-text);
+}
+
+.sidebar .selected::before {
+  display: block;
+  content: '';
+  width: 2px;
+  height: 45px;
+  position: absolute;
+  left: 0;
+  background-color: var(--color);
+}
+
+.sidebar .spacer {
+  height: 12.5px;
+}
+
+.sidebar .line {
+  width: 35px;
+  height: 1px;
+  margin: 0 auto;
+  background-color: var(--dark-background);
+}

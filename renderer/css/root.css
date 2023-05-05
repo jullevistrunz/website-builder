@@ -1,0 +1,27 @@
+:root {
+  --main-background: hsl(232, 20%, 15%);
+  --light-background: hsl(232, 20%, 25%);
+  --dark-background: hsl(232, 20%, 5%);
+  --main-text: hsl(232, 20%, 95%);
+  --dark-text: hsl(232, 20%, 70%);
+  --color: hsl(232, 100%, 75%);
+}
+
+* {
+  font-family: 'Segoe UI';
+  color: var(--main-text);
+}
+
+*::selection {
+  background-color: var(--color);
+  color: var(--dark-background);
+}
+
+.content {
+  position: fixed;
+  top: 35px;
+  left: 60px;
+  width: calc(100% - 60px);
+  height: calc(100% - 35px);
+  background-color: var(--main-background);
+}

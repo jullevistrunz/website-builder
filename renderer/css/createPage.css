@@ -1,0 +1,41 @@
+.createPage {
+  padding: 50px;
+}
+
+.createPage input,
+.createPage textarea {
+  background-color: var(--main-background);
+  border: 2px var(--dark-background) solid;
+  border-radius: 5px;
+  padding: 12.5px;
+  font-size: 16px;
+  width: 50%;
+  min-width: 250px;
+  transition: 150ms ease-in-out;
+}
+
+.createPage input {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.createPage input:focus,
+.createPage textarea:focus {
+  outline: none;
+  box-shadow: 0 0 10px 1px var(--dark-background);
+}
+
+.createPage button {
+  background-color: var(--light-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  padding: 12.5px;
+  font-size: 16px;
+  width: calc(50% + 30px);
+  min-width: 280px;
+}
+
+.createPage button:hover {
+  border-color: var(--dark-background);
+  color: var(--color);
+}

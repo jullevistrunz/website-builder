@@ -1,0 +1,104 @@
+.editPage {
+  display: grid;
+  height: calc(100% - 25px);
+  grid-template-areas:
+    'viewContent toolsMenu'
+    'viewContent specialToolsMenu'
+    'viewContent viewsMenu';
+  grid-template-columns: 1fr 200px;
+  grid-template-rows: 2fr 1fr 1fr;
+  margin: 12.5px;
+  gap: 12.5px;
+}
+
+.editPage .viewsMenu {
+  background-color: var(--light-background);
+  padding: 2.5px;
+  grid-area: viewsMenu;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.editPage .toolsMenu {
+  background-color: var(--light-background);
+  padding: 2.5px;
+  grid-area: toolsMenu;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.editPage .specialToolsMenu {
+  background-color: var(--light-background);
+  padding: 2.5px;
+  grid-area: specialToolsMenu;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.editPage .viewsMenu h1,
+.editPage .specialToolsMenu h1,
+.editPage .toolsMenu h1 {
+  font-size: 24px;
+  padding: 2.5px 12.5px;
+  margin: 2.5px 0;
+  border-bottom: var(--dark-background) 1px solid;
+}
+
+.editPage .viewsMenu button,
+.editPage .specialToolsMenu button,
+.editPage .toolsMenu button {
+  background-color: var(--light-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  cursor: pointer;
+}
+
+.editPage .viewsMenu button:not(:disabled):hover,
+.editPage .specialToolsMenu button:not(:disabled):hover,
+.editPage .toolsMenu button:not(:disabled):hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+}
+
+.editPage .viewsMenu button:disabled,
+.editPage .specialToolsMenu button:disabled,
+.editPage .toolsMenu button:disabled {
+  color: var(--dark-text);
+  cursor: not-allowed;
+}
+
+.editPage .viewsMenu button.selected:not(:disabled),
+.editPage .toolsMenu button.selected:not(:disabled) {
+  color: var(--color);
+}
+
+.editPage .viewContent {
+  grid-area: viewContent;
+}
+
+.editPage .viewContent .frame {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+  color: black;
+  display: inline-block;
+  overflow: scroll;
+}
+
+.editPage .viewContent .frame * {
+  color: black;
+}
+
+.editPage .viewContent .frame ._edit_highLightOnHover {
+  cursor: pointer;
+}
+
+.editPage .viewContent .frame ._edit_highLightOnHover:hover {
+  background-color: red;
+}

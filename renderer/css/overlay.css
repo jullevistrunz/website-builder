@@ -1,0 +1,234 @@
+.popUpOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transition: 150ms linear;
+}
+
+.popUpOverlay.use {
+  z-index: 999;
+}
+
+.popUpOverlay.blur {
+  backdrop-filter: blur(3px);
+}
+
+.popUpOverlay.use > div {
+  z-index: 1000;
+}
+
+.settingsPopUp {
+  position: fixed;
+  bottom: 12.5px;
+  left: 72.5px;
+  width: 250px;
+  background-color: var(--light-background);
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+  padding: 2.5px;
+}
+
+.settingsPopUp button {
+  background-color: var(--light-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  cursor: pointer;
+}
+
+.settingsPopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+}
+
+.settingsPopUp button.moreOptions::after {
+  content: '>';
+  font-family: consolas;
+  font-weight: 1000;
+  position: absolute;
+  right: 15px;
+}
+
+.settingsPopUp .section:not(:first-child) {
+  border-top: 2.5px solid var(--dark-background);
+  padding-top: 5px;
+}
+
+.settingsPopUp .section:not(:last-child) {
+  padding-bottom: 5px;
+}
+
+.settingsPopUp .title {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  margin: 5px 10px 2.5px 10px;
+  color: var(--dark-text);
+}
+
+.settingsValueEditPopUp {
+  position: absolute;
+  max-width: 500px;
+  width: 75%;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.settingsValueEditPopUp > div:first-child {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 2.5px;
+  border-bottom: 1px solid var(--dark-background);
+}
+
+.settingsValueEditPopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.settingsValueEditPopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.settingsValueEditPopUp input {
+  background-color: var(--main-background);
+  border: 1px var(--dark-background) solid;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 12.5px;
+  margin: 12.5px 0;
+  font-size: 20px;
+  width: calc(100% - 25px - 2px);
+}
+
+.questionPopUp {
+  position: absolute;
+  max-width: 500px;
+  width: 75%;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.questionPopUp > div:first-child {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 2.5px;
+  border-bottom: 1px solid var(--dark-background);
+}
+
+.questionPopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.questionPopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.viewSourceCodePopUp {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  right: 50px;
+  bottom: 50px;
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.viewSourceCodePopUp pre {
+  height: calc(100vh - 212px);
+  border-radius: 5px;
+  overflow: auto;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--main-background);
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.viewSourceCodePopUp pre .lineNumbers {
+  width: fit-content;
+  height: fit-content;
+  text-align: right;
+  border-right: 1px solid white;
+  padding-right: 7.5px;
+  margin-right: 20px;
+}
+
+.viewSourceCodePopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.viewSourceCodePopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+code * {
+  display: inline;
+}
+
+code .tag {
+  color: crimson;
+}
+
+code .symbol {
+  color: aqua;
+}
+
+code .attribute {
+  color: darkorchid;
+}
+
+code .value {
+  color: limegreen;
+}
+
+code .text {
+  color: white;
+}

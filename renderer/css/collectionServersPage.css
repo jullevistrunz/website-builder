@@ -1,0 +1,60 @@
+.collectionPage,
+.serversPage {
+  padding: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.collectionPage .card,
+.serversPage .card {
+  width: 250px;
+  border-radius: 10px;
+  background-color: var(--light-background);
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.collectionPage .card .title,
+.serversPage .card .title {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 2.5px;
+  border-bottom: 1px solid var(--dark-background);
+}
+
+.collectionPage .card .description,
+.serversPage .card .description {
+  font-size: 16px;
+  padding: 2.5px;
+  margin: 12.5px 0;
+}
+
+.collectionPage .card button,
+.serversPage .card button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.collectionPage .card button:not(:disabled):hover,
+.serversPage .card button:not(:disabled):hover {
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.collectionPage .card button:disabled,
+.serversPage .card button:disabled {
+  color: var(--dark-text);
+  cursor: not-allowed;
+}
+
+.collectionPage .card .deleteBtn:not(:disabled):hover {
+  color: red;
+}

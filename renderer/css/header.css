@@ -1,0 +1,51 @@
+.header {
+  background-color: var(--light-background);
+  position: fixed;
+  top: 0;
+  left: 60px;
+  width: calc(100% - 60px);
+  height: 35px;
+  box-shadow: 0 1px var(--dark-background);
+  z-index: 1;
+  -webkit-app-region: drag;
+}
+
+.header .windowControls {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  right: 0;
+  fill: var(--dark-text);
+  /* block header text */
+  background-color: var(--light-background);
+  -webkit-app-region: no-drag;
+}
+
+.header .windowControls > * {
+  padding: 7.5px 0;
+  height: 20px;
+  width: 55px;
+  display: flex;
+  justify-content: center;
+  transition: 100ms linear;
+}
+
+.header .windowControls .minimizeWindow:hover,
+.header .windowControls .restoreWindow:hover {
+  fill: var(--main-text);
+  background-color: var(--dark-background);
+}
+
+.header .windowControls .closeWindow:hover {
+  fill: red;
+  background-color: var(--dark-background);
+}
+
+.header .title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  color: var(--dark-text);
+}
