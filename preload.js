@@ -3,10 +3,8 @@ const childProcess = require('child_process')
 const fs = require('fs')
 const net = require('net')
 
-window.addEventListener('DOMContentLoaded', () => {
-  localStorage.setItem('settings', fs.readFileSync('settings.json'))
-  localStorage.setItem('pages', JSON.stringify(fs.readdirSync('pages')))
-})
+localStorage.setItem('settings', fs.readFileSync('settings.json'))
+localStorage.setItem('pages', JSON.stringify(fs.readdirSync('pages')))
 
 contextBridge.exposeInMainWorld('preload', {
   test: () => console.info('test'),
