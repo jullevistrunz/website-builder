@@ -31,7 +31,16 @@
   padding: 2.5px;
 }
 
-.settingsPopUp button {
+.settingsValuePopUp {
+  position: fixed;
+  background-color: var(--light-background);
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+  padding: 2.5px;
+  width: 200px;
+}
+.settingsPopUp button,
+.settingsValuePopUp button {
   background-color: var(--light-background);
   border: 1px transparent solid;
   border-radius: 5px;
@@ -42,7 +51,8 @@
   cursor: pointer;
 }
 
-.settingsPopUp button:hover {
+.settingsPopUp button:hover,
+.settingsValuePopUp button:hover {
   background-color: var(--main-background);
   border-color: var(--dark-background);
 }

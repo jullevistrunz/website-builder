@@ -8,5 +8,8 @@
       "lineHeight": "24px",
       "tabSize": "40px"
     }
+  },
+  "collectionPage": {
+    "showPageId": "true"
   }
 }

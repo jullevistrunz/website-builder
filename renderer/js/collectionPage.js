@@ -17,7 +17,12 @@ async function loadCollectionPage() {
     title.innerHTML = preload.getPageInfo(page).name
     const description = document.createElement('div')
     description.classList.add('description')
-    description.innerHTML = preload.getPageInfo(page).description
+    description.innerHTML =
+      JSON.parse(localStorage.getItem('settings')).collectionPage.showPageId ==
+      'true'
+        ? `ID: <a style="color: var(--dark-text);">${page}</a><br>` +
+          preload.getPageInfo(page).description
+        : preload.getPageInfo(page).description
     card.appendChild(title)
     card.appendChild(description)
     const editBtn = document.createElement('button')

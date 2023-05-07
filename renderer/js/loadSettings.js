@@ -69,14 +69,45 @@ for (let i = 0; i < Object.keys(settings).length; i++) {
   }
 }
 function createValueSelectionPopUp(event) {
+  if (
+    !settings[event.target.id.split('_')[0]] ||
+    !settings[event.target.id.split('_')[0]][event.target.id.split('_')[1]]
+  ) {
+    return
+  }
+  const value =
+    settings[event.target.id.split('_')[0]][event.target.id.split('_')[1]]
+  document.querySelector('.popUpOverlay .settingsValuePopUp').innerHTML = ''
+  for (let i = 0; i < Object.keys(value).length; i++) {
+    const btn = document.createElement('button')
+    btn.innerHTML = camelCaseToTitleCase(Object.keys(value)[i])
+    document.querySelector('.popUpOverlay .settingsValuePopUp').appendChild(btn)
+    const valuePath = [...event.target.id.split('_'), Object.keys(value)[i]]
+    btn.addEventListener('click', function () {
+      createValueEditPopUp(valuePath)
+    })
+  }
+  document
+    .querySelector('.popUpOverlay .settingsValuePopUp')
+    .classList.toggle('hidden')
   const newCoords = {
     x:
       event.target.getBoundingClientRect().x +
-      event.target.getBoundingClientRect().width,
-    y: event.target.getBoundingClientRect().y,
+      event.target.getBoundingClientRect().width +
+      5,
+    y:
+      event.target.getBoundingClientRect().y -
+      document
+        .querySelector('.popUpOverlay .settingsValuePopUp')
+        .getBoundingClientRect().height +
+      event.target.getBoundingClientRect().height,
   }
-  //TODO
-  console.log(newCoords)
+  document.querySelector(
+    '.popUpOverlay .settingsValuePopUp'
+  ).style.top = `${newCoords.y}px`
+  document.querySelector(
+    '.popUpOverlay .settingsValuePopUp'
+  ).style.left = `${newCoords.x}px`
 }
 
 function createValueEditPopUp(valuePath) {
