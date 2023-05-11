@@ -3,6 +3,16 @@ if (!localStorage.getItem('activePlugins')) {
 }
 
 const files = preload.getPlugins()
+
+//remove redundant active plugins
+const ap = JSON.parse(localStorage.getItem('activePlugins'))
+for (let i = 0; i < ap.length; i++) {
+  if (!files.includes(ap[i])) {
+    ap.splice(i, 1)
+  }
+}
+localStorage.setItem('activePlugins', JSON.stringify(ap))
+
 for (let i = 0; i < files.length; i++) {
   if (
     !(
