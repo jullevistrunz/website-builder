@@ -34,8 +34,8 @@
 
 .sidebar .create {
   margin: 0 auto;
-  height: 45px;
-  width: 45px;
+  height: 35px;
+  width: 35px;
   fill: var(--dark-text);
   cursor: pointer;
   transition: 100ms linear;
