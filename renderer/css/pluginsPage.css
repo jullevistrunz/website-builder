@@ -1,0 +1,53 @@
+.pluginsPage {
+  padding: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.pluginsPage .card {
+  width: 250px;
+  border-radius: 10px;
+  background-color: var(--light-background);
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.pluginsPage .card .title {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 2.5px;
+  border-bottom: 1px solid var(--dark-background);
+}
+
+.pluginsPage .card .description {
+  font-size: 16px;
+  padding: 2.5px;
+  margin: 12.5px 0;
+}
+
+.pluginsPage .card button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.pluginsPage .card button:not(:disabled):hover {
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.pluginsPage .card button:disabled {
+  color: var(--dark-text);
+  cursor: not-allowed;
+}
+
+.pluginsPage .break {
+  flex-basis: 100%;
+}

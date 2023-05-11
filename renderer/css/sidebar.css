@@ -20,6 +20,16 @@
   margin: 0 auto;
 }
 
+.sidebar .sidebarItem {
+  margin: 0 auto;
+  height: 35px;
+  width: 35px;
+  fill: var(--dark-text);
+  cursor: pointer;
+  transition: 100ms linear;
+  -webkit-app-region: no-drag;
+}
+
 .sidebar .settings {
   position: absolute;
   left: 12.5px;
@@ -32,40 +42,8 @@
   -webkit-app-region: no-drag;
 }
 
-.sidebar .create {
-  margin: 0 auto;
-  height: 35px;
-  width: 35px;
-  fill: var(--dark-text);
-  cursor: pointer;
-  transition: 100ms linear;
-  -webkit-app-region: no-drag;
-}
-
-.sidebar .collection {
-  margin: 0 auto;
-  height: 35px;
-  width: 35px;
-  fill: var(--dark-text);
-  cursor: pointer;
-  transition: 100ms linear;
-  -webkit-app-region: no-drag;
-}
-
-.sidebar .servers {
-  margin: 0 auto;
-  height: 35px;
-  width: 35px;
-  fill: var(--dark-text);
-  cursor: pointer;
-  transition: 100ms linear;
-  -webkit-app-region: no-drag;
-}
-
-.sidebar .settings:hover,
-.sidebar .create:hover,
-.sidebar .collection:hover,
-.sidebar .servers:hover {
+.sidebar .sidebarItem:hover,
+.sidebar .settings:hover {
   fill: var(--main-text);
 }
 
@@ -81,6 +59,7 @@
   position: absolute;
   left: 0;
   background-color: var(--color);
+  transform: translateY(-5px);
 }
 
 .sidebar .spacer {

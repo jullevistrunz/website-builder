@@ -154,6 +154,9 @@ contextBridge.exposeInMainWorld('preload', {
   writeSettings: async (settings) => {
     await fs.promises.writeFile('settings.json', settings)
   },
+  getFileSize: (file) => {
+    return fs.statSync(file).size
+  },
 })
 
 contextBridge.exposeInMainWorld('windowControls', {

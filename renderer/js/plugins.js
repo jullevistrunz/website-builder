@@ -1,11 +1,3 @@
-const files = preload.getPlugins()
-for (let i = 0; i < files.length; i++) {
-  const el = document.createElement('script')
-  el.src = 'plugins/' + files[i]
-  el.defer = true
-  document.body.appendChild(el)
-}
-
 class EditTool {
   constructor(classes, text, cb) {
     const btn = document.createElement('button')

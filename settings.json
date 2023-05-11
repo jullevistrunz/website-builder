@@ -11,5 +11,8 @@
   },
   "collectionPage": {
     "showPageId": "true"
+  },
+  "plugins": {
+    "autoLoadPlugins": "false"
   }
 }

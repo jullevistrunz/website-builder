@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <!-- !load root.css first -->
     <link rel="stylesheet" href="renderer/css/root.css" />
     <link rel="stylesheet" href="renderer/css/header.css" />
     <link rel="stylesheet" href="renderer/css/sidebar.css" />
@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="renderer/css/collectionServersPage.css" />
     <link rel="stylesheet" href="renderer/css/createPage.css" />
     <link rel="stylesheet" href="renderer/css/editPage.css" />
+    <link rel="stylesheet" href="renderer/css/pluginsPage.css" />
+    <!-- !load overWrite.css last -->
     <link rel="stylesheet" href="renderer/css/overWrite.css" />
     <title>Website Builder</title>
   </head>
@@ -96,7 +98,7 @@
       </div>
       <div class="line"></div>
       <div class="spacer"></div>
-      <div class="create">
+      <div class="create sidebarItem" title="Create">
         <svg
           viewBox="0 0 35 35"
           xml:space="preserve"
@@ -118,7 +120,7 @@
         </svg>
       </div>
       <div class="spacer"></div>
-      <div class="collection">
+      <div class="collection sidebarItem" title="Collection">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -133,7 +135,7 @@
         </svg>
       </div>
       <div class="spacer"></div>
-      <div class="servers">
+      <div class="servers sidebarItem" title="Running Servers">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <g>
             <path
@@ -149,8 +151,27 @@
           </g>
         </svg>
       </div>
-      <div class="edit hidden"></div>
-      <div class="settings">
+      <div class="spacer"></div>
+      <div class="plugins sidebarItem" title="Plugins">
+        <svg
+          viewBox="0 0 36.375 36.376"
+          xml:space="preserve"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <g>
+            <path
+              d="M33.938,25.626v8.25c0,1.383-1.119,2.5-2.5,2.5h-26.5c-1.381,0-2.5-1.117-2.5-2.5v-8.25c0-1.381,1.119-2.5,2.5-2.5
+            s2.5,1.119,2.5,2.5v5.75h21.5v-5.75c0-1.381,1.119-2.5,2.5-2.5S33.938,24.245,33.938,25.626z M16.42,27.768
+            c0.488,0.488,1.129,0.732,1.768,0.732c0.643,0,1.279-0.244,1.77-0.732l7.5-7.498c0.978-0.975,0.978-2.558,0-3.535
+            c-0.977-0.977-2.561-0.977-3.535,0l-3.231,3.232V2.5c0-1.381-1.119-2.5-2.5-2.5s-2.5,1.119-2.5,2.5v17.467l-3.232-3.232
+            c-0.977-0.977-2.561-0.977-3.535,0c-0.977,0.978-0.977,2.56,0,3.535L16.42,27.768z"
+            />
+          </g>
+        </svg>
+      </div>
+      <div class="edit hidden sidebarItem"></div>
+      <div class="settings" title="Settings">
         <svg
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
@@ -229,6 +250,7 @@
           <button class="savePageBtn">Save And Exit</button>
         </div>
       </div>
+      <div class="pluginsPage hidden"></div>
     </div>
     <div class="popUpOverlay">
       <div class="viewSourceCodePopUp hidden">
@@ -256,6 +278,7 @@
         </button>
       </div>
     </div>
+    <!-- !load init.js first -->
     <script src="renderer/js/init.js" defer></script>
     <script src="renderer/js/loadSettings.js" defer></script>
     <script src="renderer/js/sidebar.js" defer></script>
@@ -264,6 +287,7 @@
     <script src="renderer/js/createPage.js" defer></script>
     <script src="renderer/js/serversPage.js" defer></script>
     <script src="renderer/js/editPage.js" defer></script>
+    <script src="renderer/js/pluginsPage.js" defer></script>
     <script src="renderer/js/plugins.js" defer></script>
   </body>
 </html>

@@ -1,18 +1,22 @@
-document
-  .querySelector('.sidebar .create')
-  .addEventListener('click', selectSidebarItem)
+// document
+//   .querySelector('.sidebar .create')
+//   .addEventListener('click', selectSidebarItem)
 
-document
-  .querySelector('.sidebar .collection')
-  .addEventListener('click', selectSidebarItem)
+// document
+//   .querySelector('.sidebar .collection')
+//   .addEventListener('click', selectSidebarItem)
 
-document
-  .querySelector('.sidebar .servers')
-  .addEventListener('click', selectSidebarItem)
+// document
+//   .querySelector('.sidebar .servers')
+//   .addEventListener('click', selectSidebarItem)
 
-document
-  .querySelector('.sidebar .edit')
-  .addEventListener('click', selectSidebarItem)
+// document
+//   .querySelector('.sidebar .edit')
+//   .addEventListener('click', selectSidebarItem)
+
+document.querySelectorAll('.sidebar .sidebarItem').forEach((item) => {
+  item.addEventListener('click', selectSidebarItem)
+})
 
 function selectSidebarItem() {
   const lambdaFunc = () => {
@@ -39,6 +43,9 @@ function selectSidebarItem() {
     } else if (this.classList.contains('edit')) {
       document.querySelector('.content .editPage').classList.remove('hidden')
       loadEditPage()
+    } else if (this.classList.contains('plugins')) {
+      document.querySelector('.content .pluginsPage').classList.remove('hidden')
+      loadPluginsPage()
     } else {
       location.reload()
     }
