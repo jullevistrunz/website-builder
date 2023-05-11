@@ -104,13 +104,6 @@ contextBridge.exposeInMainWorld('preload', {
         const server = net.createServer()
         server.once('error', function (err) {
           if (err.code === 'EADDRINUSE') {
-            localStorage.setItem(
-              'runningServers',
-              JSON.stringify([
-                ...JSON.parse(localStorage.getItem('runningServers')),
-                page,
-              ])
-            )
             arr.push(page)
           }
           r()
