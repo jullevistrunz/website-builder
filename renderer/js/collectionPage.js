@@ -1,8 +1,6 @@
 async function loadCollectionPage() {
   localStorage.setItem('goTo', 'collection')
-  preload.getRunningServers()
-  // wait for preload to set localStorage
-  await sleep(10)
+  const runningServers = await preload.getRunningServers()
   updateTitle('Collection')
   if (localStorage.getItem('pages') == '[]') return
   document
@@ -41,11 +39,8 @@ async function loadCollectionPage() {
       // making sure servers page isn't loaded before the server started
       await new Promise((resolve) => {
         const interval = setInterval(async () => {
-          preload.getRunningServers()
-          await sleep(10)
-          if (
-            JSON.parse(localStorage.getItem('runningServers')).includes(page)
-          ) {
+          const rs = await preload.getRunningServers()
+          if (rs.includes(page)) {
             resolve()
             clearInterval(interval)
           }
@@ -56,7 +51,7 @@ async function loadCollectionPage() {
     const deleteBtn = document.createElement('button')
     deleteBtn.classList.add('deleteBtn')
     deleteBtn.innerHTML = 'Delete'
-    if (JSON.parse(localStorage.getItem('runningServers')).includes(page)) {
+    if (runningServers.includes(page)) {
       startBtn.disabled = true
       deleteBtn.disabled = true
     }

@@ -1,10 +1,8 @@
 async function loadServersPage() {
   localStorage.setItem('goTo', 'servers')
-  preload.getRunningServers()
-  // wait for preload to set localStorage
-  await sleep(10)
+  const runningServers = await preload.getRunningServers()
   updateTitle('Running Servers')
-  const servers = JSON.parse(localStorage.getItem('runningServers'))
+  const servers = runningServers
   if (!servers || servers.length <= 0) {
     return
   }
@@ -36,11 +34,8 @@ async function loadServersPage() {
       // making sure collection page isn't loaded before the server stopped
       await new Promise((resolve) => {
         const interval = setInterval(async () => {
-          preload.getRunningServers()
-          await sleep(10)
-          if (
-            !JSON.parse(localStorage.getItem('runningServers')).includes(page)
-          ) {
+          const rs = await preload.getRunningServers()
+          if (!rs.includes(page)) {
             resolve()
             clearInterval(interval)
           }

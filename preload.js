@@ -97,28 +97,35 @@ contextBridge.exposeInMainWorld('preload', {
       console.info(origin + ': child process exited with code ' + code)
     })
   },
-  getRunningServers: () => {
-    localStorage.setItem('runningServers', '[]')
-    fs.readdirSync(pagePath).forEach((page) => {
-      const server = net.createServer()
-      server.once('error', function (err) {
-        if (err.code === 'EADDRINUSE') {
-          localStorage.setItem(
-            'runningServers',
-            JSON.stringify([
-              ...JSON.parse(localStorage.getItem('runningServers')),
-              page,
-            ])
-          )
-        }
+  getRunningServers: async () => {
+    const arr = []
+    for (const page of fs.readdirSync(pagePath)) {
+      await new Promise((r) => {
+        const server = net.createServer()
+        server.once('error', function (err) {
+          if (err.code === 'EADDRINUSE') {
+            localStorage.setItem(
+              'runningServers',
+              JSON.stringify([
+                ...JSON.parse(localStorage.getItem('runningServers')),
+                page,
+              ])
+            )
+            arr.push(page)
+          }
+          r()
+        })
+        server.once('listening', function () {
+          server.close()
+          r()
+        })
+        server.listen(
+          JSON.parse(fs.readFileSync(`${pagePath}/${page}/info.json`)).port
+        )
       })
-      server.once('listening', function () {
-        server.close()
-      })
-      server.listen(
-        JSON.parse(fs.readFileSync(`${pagePath}/${page}/info.json`)).port
-      )
-    })
+    }
+
+    return arr
   },
   deletePage: (page) => {
     fs.rmSync(`${pagePath}/${page}`, { recursive: true, force: true })
