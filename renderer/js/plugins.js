@@ -1,4 +1,12 @@
+/**  Create a button in the 'Tools' menu editPage*/
+
 class EditTool {
+  /**
+   *
+   * @param {String[]} classes - The classList of the button
+   * @param {String} text - The text the button displays
+   * @param {Function} cb - The function run when the button is clicked
+   */
   constructor(classes, text, cb) {
     const btn = document.createElement('button')
     btn.innerHTML = text
@@ -28,7 +36,10 @@ class EditTool {
     })
     document.querySelector('.content .editPage .toolsMenu').appendChild(btn)
   }
-
+  /**
+   * Run when the button is loaded
+   * @param {Function} cb - The function run
+   */
   load(cb) {
     cb()
   }
