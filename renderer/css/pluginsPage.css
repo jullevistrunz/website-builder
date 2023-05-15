@@ -1,12 +1,26 @@
-.pluginsPage {
-  padding: 50px;
+.pluginsPage > div {
+  padding: 50px 50px 0 50px;
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
+  column-gap: 50px;
+}
+
+.pluginsPage > div > .sectionTitle {
+  color: var(--dark-text);
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.pluginsPage > div > .msg {
+  font-size: 16px;
+  color: var(--dark-text);
+  margin-left: 10px;
 }
 
 .pluginsPage .card {
-  width: 250px;
+  min-width: 250px;
+  width: fit-content;
   border-radius: 10px;
   background-color: var(--light-background);
   padding: 10px;

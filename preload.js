@@ -123,8 +123,11 @@ contextBridge.exposeInMainWorld('preload', {
   deletePage: (page) => {
     fs.rmSync(`${pagePath}/${page}`, { recursive: true, force: true })
   },
-  getPlugins: () => {
-    return fs.readdirSync('plugins')
+  getPluginsJS: () => {
+    return fs.readdirSync('plugins/js')
+  },
+  getPluginsCSS: () => {
+    return fs.readdirSync('plugins/css')
   },
   writeFile: (relativeFileName, content) => {
     fs.writeFileSync(__dirname + '/' + relativeFileName, content)
