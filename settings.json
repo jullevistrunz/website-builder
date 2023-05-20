@@ -10,7 +10,7 @@
     }
   },
   "collectionPage": {
-    "showPageId": "true",
+    "showPageId": "false",
     "pagesDirectoryPath": "pages"
   },
   "plugins": {
