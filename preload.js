@@ -8,6 +8,36 @@ const pagePath = settings.collectionPage.pagesDirectoryPath
 localStorage.setItem('settings', JSON.stringify(settings))
 localStorage.setItem('pages', JSON.stringify(fs.readdirSync(pagePath)))
 
+try {
+  fs.readdirSync('temp')
+} catch {
+  fs.mkdirSync('temp')
+}
+
+try {
+  fs.readdirSync('plugins')
+} catch {
+  fs.mkdirSync('plugins')
+}
+
+try {
+  fs.readdirSync('plugins/js')
+} catch {
+  fs.mkdirSync('plugins/js')
+}
+
+try {
+  fs.readdirSync('plugins/css')
+} catch {
+  fs.mkdirSync('plugins/css')
+}
+
+try {
+  fs.readdirSync('pages')
+} catch {
+  fs.mkdirSync('pages')
+}
+
 contextBridge.exposeInMainWorld('preload', {
   test: () => console.info('test'),
   getPageInfo: (page) => {
