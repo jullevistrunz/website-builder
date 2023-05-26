@@ -235,4 +235,9 @@ function checkSaveEdit() {
   ).disabled = !/[A-Za-z0-9]/.test(
     document.querySelector('.content .editPage .viewContent .frame').innerHTML
   )
+  document.querySelector(
+    '.content .editPage .specialToolsMenu .viewSrcCodeBtn'
+  ).disabled = !/[A-Za-z0-9]/.test(
+    document.querySelector('.content .editPage .viewContent .frame').innerHTML
+  )
 }
