@@ -88,10 +88,11 @@
   box-shadow: 1px 1px 10px 1px var(--dark-background);
   color: black;
   display: inline-block;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .editPage .viewContent .frame * {
+  font-family: system-ui;
   color: black;
 }
 
