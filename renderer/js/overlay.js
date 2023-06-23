@@ -99,27 +99,78 @@ function openViewSourceCode(view) {
         if (arr5[j] == '<' || arr5[j] == '>') {
           arr5[j] = `<div class="symbol">${htmlEntities.encode(arr5[j])}</div>`
         } else {
-          const arr6 = arr5[j].split(' ')
-          arr6[0] = `<div class="tag">${htmlEntities.encode(arr6[0])}</div>`
-          const arr7 = []
+          let arr6 = arr5[j].split(/\s(.*)/s)
+          if (arr6.length > 1) {
+            arr6[arr6.length - 1] = null
+            arr6 = arr6.filter((n) => n)
+          }
+
+          let arr7 = []
           for (let k = 1; k < arr6.length; k++) {
             arr7.push(arr6[k])
           }
-          for (let k = 0; k < arr7.length; k++) {
-            const arr8 = arr7[k].split('=')
-            arr8[0] = ` <i class="attribute">${htmlEntities.encode(
-              arr8[0]
-            )}</i>`
-            arr8[1] = arr8[1].split('"').join('')
-            arr8[1] = `<div class="symbol">${htmlEntities.encode(
-              '"'
-            )}</div><div class="value">${
-              arr8[1]
-            }</div><div class="symbol">${htmlEntities.encode('"')}</div>`
-            arr7[k] = arr8.join(
-              `<div class="symbol">${htmlEntities.encode('=')}</div>`
-            )
+          arr7 = arr7.join('')
+          if (!arr7) {
+            if (arr6[0].length > 1) {
+              arr6[0] = `<div class="tag">${htmlEntities.encode(arr6[0])}</div>`
+              arr5[j] = arr6[0]
+            }
+            continue
           }
+
+          arr6[0] = `<div class="tag">${htmlEntities.encode(arr6[0])}</div>`
+
+          const arr8 = arr7.split('=')
+
+          let arr10 = []
+          for (let k = 0; k < arr8.length; k++) {
+            const arr9 = arr8[k].split('"')
+            if (arr9.length > 1) {
+              arr10.push(`"${arr9[1]}"`)
+              arr10.push(arr9[2])
+            } else {
+              arr10.push(arr9[0])
+            }
+          }
+          arr10[arr10.length - 1] = null
+          arr10 = arr10.filter((n) => n)
+
+          for (let k = 0; k < arr10.length; k++) {
+            if (arr10[k].startsWith('"') && arr10[k].endsWith('"')) {
+              arr10[k] = arr10[k].substring(1, arr10[k].length - 1)
+              arr10[k] = `<div class="symbol">${htmlEntities.encode(
+                '"'
+              )}</div><div class="value">${
+                arr10[k]
+              }</div><div class="symbol">${htmlEntities.encode('"')}</div>`
+            } else {
+              arr10[k] = `<i class="attribute">${htmlEntities.encode(
+                arr10[k]
+              )}</i>`
+            }
+          }
+
+          const arr11 = Array.from(
+            { length: arr10.length / 2 },
+            (_, k) =>
+              arr10[2 * k] +
+              `<div class="symbol">${htmlEntities.encode('=')}</div>` +
+              arr10[2 * k + 1]
+          )
+
+          arr8[0] = ` <i class="attribute">${htmlEntities.encode(arr8[0])}</i>`
+          arr8[1] = arr8[1].split('"').join('')
+          arr8[1] = `<div class="symbol">${htmlEntities.encode(
+            '"'
+          )}</div><div class="value">${
+            arr8[1]
+          }</div><div class="symbol">${htmlEntities.encode('"')}</div>`
+          arr7 = arr8.join(
+            `<div class="symbol">${htmlEntities.encode('=')}</div>`
+          )
+
+          arr7 = ' ' + arr11.join('')
+
           arr5[j] = [arr6[0], ...arr7].join('')
         }
       }
