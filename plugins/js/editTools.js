@@ -42,7 +42,7 @@ new EditTool(['addElBtn'], 'Add Element', function () {
 new EditTool(['rmElBtn'], 'Remove Element', function () {
   document
     .querySelectorAll(
-      '.content .editPage .viewContent .frame *:not(._editPlaceHolder)'
+      '.content .editPage .viewContent .frame .frameSection:not(._editPlaceHolder)'
     )
     .forEach((el) => {
       el.classList.add('_edit_highLightOnHover')
@@ -87,7 +87,7 @@ function openAddHTMLPopUp() {
   btn.addEventListener('click', () => {
     document.querySelector('.popUpOverlay').click()
     const cleanValue = input.value.replace(/\r?\n|\r/g, '')
-    addHTMLToFrame(cleanValue)
+    addHTMLToFrame(cleanValue, 'customHTML')
   })
 
   const cancelBtn = document.createElement('button')
@@ -103,9 +103,14 @@ function openAddHTMLPopUp() {
   document.querySelector('.popUpOverlay').appendChild(overlay)
 }
 
-function addHTMLToFrame(code) {
-  document.querySelector('.content .editPage .viewContent .frame').innerHTML +=
-    code
+function addHTMLToFrame(code, type) {
+  const newSection = document.createElement('div')
+  newSection.id = `${type}-${createID()}`
+  newSection.classList.add('frameSection')
+  newSection.innerHTML = code
+  document
+    .querySelector('.content .editPage .viewContent .frame')
+    .appendChild(newSection)
 
   checkSaveEdit()
   //save new view to temp

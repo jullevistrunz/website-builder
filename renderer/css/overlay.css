@@ -224,7 +224,7 @@ code * {
 }
 
 code .tag {
-  color: crimson;
+  color: #e64c4d;
 }
 
 code .symbol {
@@ -232,11 +232,11 @@ code .symbol {
 }
 
 code .attribute {
-  color: darkorchid;
+  color: #c28ae5;
 }
 
 code .value {
-  color: limegreen;
+  color: #c3e87e;
 }
 
 code .text {

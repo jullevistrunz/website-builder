@@ -99,6 +99,9 @@ function openViewSourceCode(view) {
         if (arr5[j] == '<' || arr5[j] == '>') {
           arr5[j] = `<div class="symbol">${htmlEntities.encode(arr5[j])}</div>`
         } else {
+          if (arr5[j].includes('\n')) {
+            continue
+          }
           let arr6 = arr5[j].split(/\s(.*)/s)
           if (arr6.length > 1) {
             arr6[arr6.length - 1] = null
@@ -113,8 +116,8 @@ function openViewSourceCode(view) {
           if (!arr7) {
             if (arr6[0].length > 1) {
               arr6[0] = `<div class="tag">${htmlEntities.encode(arr6[0])}</div>`
-              arr5[j] = arr6[0]
             }
+            arr5[j] = arr6[0]
             continue
           }
 
@@ -156,17 +159,6 @@ function openViewSourceCode(view) {
               arr10[2 * k] +
               `<div class="symbol">${htmlEntities.encode('=')}</div>` +
               arr10[2 * k + 1]
-          )
-
-          arr8[0] = ` <i class="attribute">${htmlEntities.encode(arr8[0])}</i>`
-          arr8[1] = arr8[1].split('"').join('')
-          arr8[1] = `<div class="symbol">${htmlEntities.encode(
-            '"'
-          )}</div><div class="value">${
-            arr8[1]
-          }</div><div class="symbol">${htmlEntities.encode('"')}</div>`
-          arr7 = arr8.join(
-            `<div class="symbol">${htmlEntities.encode('=')}</div>`
           )
 
           arr7 = ' ' + arr11.join('')
