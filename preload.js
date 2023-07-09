@@ -8,6 +8,36 @@ const pagePath = settings.collectionPage.pagesDirectoryPath
 localStorage.setItem('settings', JSON.stringify(settings))
 localStorage.setItem('pages', JSON.stringify(fs.readdirSync(pagePath)))
 
+try {
+  fs.readdirSync('temp')
+} catch {
+  fs.mkdirSync('temp')
+}
+
+try {
+  fs.readdirSync('plugins')
+} catch {
+  fs.mkdirSync('plugins')
+}
+
+try {
+  fs.readdirSync('plugins/js')
+} catch {
+  fs.mkdirSync('plugins/js')
+}
+
+try {
+  fs.readdirSync('plugins/css')
+} catch {
+  fs.mkdirSync('plugins/css')
+}
+
+try {
+  fs.readdirSync('pages')
+} catch {
+  fs.mkdirSync('pages')
+}
+
 contextBridge.exposeInMainWorld('preload', {
   test: () => console.info('test'),
   getPageInfo: (page) => {
@@ -25,12 +55,7 @@ contextBridge.exposeInMainWorld('preload', {
     return file.slice(file.search('<body>') + '<body>'.length)
   },
   createPage: (name, description) => {
-    const id = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-      (
-        c ^
-        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-      ).toString(16)
-    )
+    const id = Math.random().toString(16).slice(2)
     const password = ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(
       /[018]/g,
       (c) =>
@@ -44,7 +69,7 @@ contextBridge.exposeInMainWorld('preload', {
     fs.mkdirSync(`${pagePath}/${id}/views`)
     fs.writeFileSync(
       `${pagePath}/${id}/views/main.html`,
-      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body><h1>Hello World</h1></body></html>'
+      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body><div class="frameSection"><h1>Hello World</h1></div></body></html>'
     )
     fs.writeFileSync(
       `${pagePath}/${id}/info.json`,
@@ -63,7 +88,7 @@ contextBridge.exposeInMainWorld('preload', {
     )
     fs.writeFileSync(
       `${pagePath}/${id}/views/404.html`,
-      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>404 - Page Not Found</title></head><style>body{margin:0;}</style><body><div>404 - Page Not Found</div></body></html>'
+      '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>404 - Page Not Found</title></head><style>body{margin:0;}</style><body><div class="frameSection"><h1>404 - Page Not Found</h1></div></body></html>'
     )
     fs.writeFileSync(
       `${pagePath}/${id}/index.js`,

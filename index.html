@@ -274,7 +274,8 @@
           <button class="undoBtn">Undo</button>
           <button class="redoBtn">Redo</button>
           <button class="viewSrcCodeBtn">View Source Code</button>
-          <button class="savePageBtn">Save And Exit</button>
+          <button class="savePageBtn">Save</button>
+          <button class="exitPageBtn">Exit</button>
         </div>
       </div>
       <div class="pluginsPage hidden">
@@ -303,7 +304,9 @@
       <div class="settingsValuePopUp hidden"></div>
       <div class="settingsValueEditPopUp hidden">
         <div>option</div>
-        <input />
+        <div class="inputWrapper">
+          <input />
+        </div>
         <button class="changeBtn">Change</button>
         <button onclick="document.querySelector('.popUpOverlay').click()">
           Cancel

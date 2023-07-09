@@ -24,4 +24,5 @@
   width: calc(100% - 60px);
   height: calc(100% - 35px);
   background-color: var(--main-background);
+  overflow: auto;
 }

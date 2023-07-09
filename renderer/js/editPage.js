@@ -52,7 +52,7 @@ function loadEditPage() {
           ).length > 1
         ) {
           popUpQuestion(
-            'Are you sure you want to switch views? All changes will be removed!',
+            'Are you sure you want to switch views? All unsaved changes will be removed!',
             () => {
               lambdaFunc()
             }
@@ -167,27 +167,35 @@ function loadEditPage() {
   document
     .querySelector('.content .editPage .specialToolsMenu .savePageBtn')
     .addEventListener('click', function () {
-      popUpQuestion('Are you sure you want to save and exit?', function () {
-        document
-          .querySelectorAll('.content .editPage .viewContent .frame *')
-          .forEach((el) => {
-            for (let i = 0; i < el.classList.length; i++) {
-              if (el.classList[i].startsWith('_edit_')) {
-                el.classList.remove(el.classList[i])
-              }
+      document
+        .querySelectorAll('.content .editPage .viewContent .frame *')
+        .forEach((el) => {
+          for (let i = 0; i < el.classList.length; i++) {
+            if (el.classList[i].startsWith('_edit_')) {
+              el.classList.remove(el.classList[i])
             }
-          })
-        const currentFrame = document.querySelector(
-          '.content .editPage .viewContent .frame'
-        ).innerHTML
-        const view = localStorage.getItem('viewToEdit')
-        const file = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body>${currentFrame}</body></html>`
-        preload.writeFile(`pages/${page}/views/${view}`, file)
-        localStorage.removeItem('editViewHistoryIndex')
-        localStorage.removeItem('pageToEdit')
-        localStorage.removeItem('viewToEdit')
-        goToAndReload('collection')
-      })
+          }
+        })
+      const currentFrame = document.querySelector(
+        '.content .editPage .viewContent .frame'
+      ).innerHTML
+      const view = localStorage.getItem('viewToEdit')
+      const file = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body>${currentFrame}</body></html>`
+      preload.writeFile(`pages/${page}/views/${view}`, file)
+      localStorage.removeItem('editViewHistoryIndex')
+      goToAndReload('edit')
+    })
+  document
+    .querySelector('.content .editPage .specialToolsMenu .exitPageBtn')
+    .addEventListener('click', function () {
+      popUpQuestion(
+        'Are you sure you want to exit? All unsaved changes will be removed!',
+        function () {
+          localStorage.removeItem('pageToEdit')
+          localStorage.removeItem('viewToEdit')
+          goToAndReload('collection')
+        }
+      )
     })
 }
 
@@ -232,6 +240,11 @@ function deselectEditTools() {
 function checkSaveEdit() {
   document.querySelector(
     '.content .editPage .specialToolsMenu .savePageBtn'
+  ).disabled = !/[A-Za-z0-9]/.test(
+    document.querySelector('.content .editPage .viewContent .frame').innerHTML
+  )
+  document.querySelector(
+    '.content .editPage .specialToolsMenu .viewSrcCodeBtn'
   ).disabled = !/[A-Za-z0-9]/.test(
     document.querySelector('.content .editPage .viewContent .frame').innerHTML
   )

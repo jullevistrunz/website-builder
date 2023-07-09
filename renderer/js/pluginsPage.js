@@ -50,9 +50,11 @@ function loadPluginsPage() {
   const pluginsListJS = preload.getPluginsJS()
   const pluginsListCSS = preload.getPluginsCSS()
   let autoLoad = false
-  document.querySelectorAll('.content .pluginsPage .card').forEach((el) => {
-    el.remove()
-  })
+  document
+    .querySelectorAll('.content .pluginsPage .card, .content .pluginsPage .msg')
+    .forEach((el) => {
+      el.remove()
+    })
   if (
     JSON.parse(localStorage.getItem('settings')).plugins.autoLoadPlugins ==
     'true'
