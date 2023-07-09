@@ -1,0 +1,53 @@
+.welcomeMessage .headline {
+  font-size: 25px;
+  font-weight: 600;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 8px;
+}
+
+.welcomeMessage .long-arrow-left {
+  display: block;
+  margin: 6px;
+  width: 25px;
+  height: 25px;
+  border-top: 6px solid #ffffff;
+  border-left: 6px solid #ffffff;
+  transform: rotate(-45deg) scale(0.5);
+}
+
+.welcomeMessage .long-arrow-left::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 45px;
+  background-color: rgb(255, 255, 255);
+  transform: rotate(-45deg) translate(15px, 4px);
+}
+
+.welcomeMessage .wrapper {
+  height: 195px;
+  display: grid;
+  grid-template-columns: 0.2fr 4fr;
+  margin-top: 20px;
+  /* background-color: blueviolet; */
+}
+
+.welcomeMessage .box {
+  /* background-color: rgb(0, 61, 61); */
+  margin: 2px;
+}
+
+.welcomeMessage .box.text {
+  padding: 10px 0;
+}
+
+.credits {
+  position: fixed;
+  left: 50%;
+  bottom: -25px;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  text-align: center;
+}
