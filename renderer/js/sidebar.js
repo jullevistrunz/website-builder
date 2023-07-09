@@ -1,19 +1,3 @@
-// document
-//   .querySelector('.sidebar .create')
-//   .addEventListener('click', selectSidebarItem)
-
-// document
-//   .querySelector('.sidebar .collection')
-//   .addEventListener('click', selectSidebarItem)
-
-// document
-//   .querySelector('.sidebar .servers')
-//   .addEventListener('click', selectSidebarItem)
-
-// document
-//   .querySelector('.sidebar .edit')
-//   .addEventListener('click', selectSidebarItem)
-
 document.querySelectorAll('.sidebar .sidebarItem').forEach((item) => {
   item.addEventListener('click', selectSidebarItem)
 })
@@ -53,7 +37,7 @@ function selectSidebarItem() {
   // warn before exit on editPage
   if (openPage == 'edit') {
     popUpQuestion(
-      'Are you sure you want to exit? All changes will be removed!',
+      'Are you sure you want to exit? All unsaved changes will be removed!',
       () => {
         lambdaFunc()
         localStorage.removeItem('pageToEdit')

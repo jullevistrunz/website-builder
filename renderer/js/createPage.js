@@ -1,5 +1,8 @@
 function loadCreatePage() {
   updateTitle('Create')
+  const oldEl = document.querySelector('.content .createPage button')
+  const newEl = oldEl.cloneNode(true)
+  oldEl.parentNode.replaceChild(newEl, oldEl)
   document
     .querySelector('.content .createPage button')
     .addEventListener('click', () => {

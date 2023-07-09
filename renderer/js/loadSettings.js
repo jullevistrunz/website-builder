@@ -129,14 +129,37 @@ function createValueEditPopUp(valuePath) {
   ).innerHTML = camelCaseToTitleCase(valuePath[valuePath.length - 1])
   document.querySelector('.popUpOverlay').classList.toggle('use')
   document.querySelector('.popUpOverlay').classList.toggle('blur')
-  document.querySelector('.settingsValueEditPopUp input').value = oldValue
+  if (oldValue == 'true' || oldValue == 'false') {
+    document.querySelector('.settingsValueEditPopUp .inputWrapper').innerHTML =
+      ''
+    const span = document.createElement('span')
+    span.classList.add('slider')
+    const label = document.createElement('label')
+    label.classList.add('switch')
+    const input = document.createElement('input')
+    input.type = 'checkbox'
+    label.appendChild(input)
+    label.appendChild(span)
+    document
+      .querySelector('.settingsValueEditPopUp .inputWrapper')
+      .appendChild(label)
+    document.querySelector('.settingsValueEditPopUp input').checked =
+      oldValue == 'true'
+  } else {
+    document.querySelector('.settingsValueEditPopUp .inputWrapper').innerHTML =
+      '<input />'
+    document.querySelector('.settingsValueEditPopUp input').value = oldValue
+  }
 
   document
     .querySelector('.settingsValueEditPopUp .changeBtn')
     .addEventListener('click', async function () {
-      const newValue = document.querySelector(
-        '.settingsValueEditPopUp input'
-      ).value
+      const newValue =
+        oldValue == 'true' || oldValue == 'false'
+          ? document.querySelector('.settingsValueEditPopUp input').checked
+            ? 'true'
+            : 'false'
+          : document.querySelector('.settingsValueEditPopUp input').value
       // https://stackoverflow.com/a/22562804/15255405
       const newObj = {}
       const newValuePath = [...valuePath, newValue]

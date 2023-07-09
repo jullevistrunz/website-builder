@@ -1,0 +1,55 @@
+.popUpOverlay .addElOverlay,
+.popUpOverlay .addHTMLPopUp {
+  position: absolute;
+  max-width: 500px;
+  width: 75%;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.popUpOverlay .addElOverlay button,
+.popUpOverlay .addHTMLPopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.popUpOverlay .addElOverlay button:hover,
+.popUpOverlay .addHTMLPopUp button:hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.popUpOverlay .addHTMLPopUp textarea {
+  background-color: var(--main-background);
+  border: 1px var(--dark-background) solid;
+  border-radius: 5px;
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  width: calc(100% - 25px - 2px);
+  resize: vertical;
+}
+
+.editPage .viewContent .frame ._edit_highLightOnHover {
+  cursor: pointer;
+  transition: 100ms linear;
+}
+
+.editPage .viewContent .frame ._edit_highLightOnHover:hover {
+  background-color: transparent;
+  box-shadow: 0 0 5px 2px red;
+}

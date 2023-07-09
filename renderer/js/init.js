@@ -21,6 +21,10 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms))
 }
 
+function createID() {
+  return Math.random().toString(16).slice(2)
+}
+
 async function goTo(sidebarChild) {
   if (!document.querySelector(`.sidebar .${sidebarChild}`)) return
   //? somehow doesn't work without sleep on page reload
