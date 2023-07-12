@@ -1,13 +1,25 @@
-.welcomeMessage .headline {
-  font-size: 25px;
-  font-weight: 600;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 8px;
+.welcomeMessage {
+  white-space: nowrap;
 }
 
-.welcomeMessage .long-arrow-left {
+.welcomeMessage .headline {
+  font-size: 65px;
+  font-weight: 700;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-background);
+  z-index: 1;
+  white-space: normal;
+  cursor: none;
+}
+
+.welcomeMessage .longArrowLeft {
   display: block;
   margin: 6px;
   width: 25px;
@@ -17,7 +29,7 @@
   transform: rotate(-45deg) scale(0.5);
 }
 
-.welcomeMessage .long-arrow-left::after {
+.welcomeMessage .longArrowLeft::after {
   content: '';
   display: block;
   width: 6px;
@@ -27,15 +39,21 @@
 }
 
 .welcomeMessage .wrapper {
-  height: 195px;
+  height: 190px;
   display: grid;
-  grid-template-columns: 0.2fr 4fr;
-  margin-top: 20px;
-  /* background-color: blueviolet; */
+  grid-template-columns: 50px 1fr;
+  border-radius: 10px;
+  background-color: var(--light-background);
+  margin: 10px;
+  margin-top: 25px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+  padding-right: 10px;
+  width: fit-content;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .welcomeMessage .box {
-  /* background-color: rgb(0, 61, 61); */
   margin: 2px;
 }
 
@@ -44,10 +62,56 @@
 }
 
 .credits {
-  position: fixed;
+  position: absolute;
   left: 50%;
-  bottom: -25px;
+  bottom: 10px;
   transform: translate(-50%, -50%);
   margin: 0 auto;
   text-align: center;
+  width: max-content;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.welcomeMessage .cursor {
+  transition-property: width, height;
+  transition-duration: 250ms;
+  border-radius: 100px;
+  background-color: white;
+  height: 20px;
+  width: 20px;
+  position: fixed;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  white-space: nowrap;
+}
+
+.welcomeMessage .cursor::after {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, 100px);
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.welcomeMessage .headline .text:hover ~ .cursor::after {
+  content: 'Click To Start!';
+}
+
+.welcomeMessage .headline .text:hover ~ .cursor {
+  width: 100px;
+  height: 100px;
+}
+
+.welcomeMessage .githubLink {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: scale(45%);
+  background-color: var(--main-background);
+  border-radius: 50%;
+  cursor: pointer;
 }

@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, shell } = require('electron')
 const childProcess = require('child_process')
 const fs = require('fs')
 const net = require('net')
@@ -186,6 +186,9 @@ contextBridge.exposeInMainWorld('preload', {
   },
   getFileSize: (file) => {
     return fs.statSync(file).size
+  },
+  openLinkInBrowser: (link) => {
+    shell.openExternal(link)
   },
 })
 
