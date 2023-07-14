@@ -1,5 +1,6 @@
 function loadCreatePage() {
   updateTitle('Create')
+  preload.updateDiscordRPC(`Creating a new page`)
   const oldEl = document.querySelector('.content .createPage button')
   const newEl = oldEl.cloneNode(true)
   oldEl.parentNode.replaceChild(newEl, oldEl)

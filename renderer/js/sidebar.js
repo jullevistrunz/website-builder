@@ -4,6 +4,7 @@ document.querySelectorAll('.sidebar .sidebarItem').forEach((item) => {
 
 function selectSidebarItem() {
   const lambdaFunc = () => {
+    preload.updateDiscordRPC()
     openPage = this.classList[0]
     localStorage.removeItem('goTo')
     document.querySelectorAll('.sidebar .selected').forEach((el) => {

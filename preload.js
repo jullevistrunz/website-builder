@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer, shell } = require('electron')
 const childProcess = require('child_process')
 const fs = require('fs')
 const net = require('net')
+const discordRPC = require('discord-rpc')
 
 const settings = JSON.parse(fs.readFileSync('settings.json'))
 const pagePath = settings.collectionPage.pagesDirectoryPath
@@ -37,6 +38,32 @@ try {
 } catch {
   fs.mkdirSync('pages')
 }
+
+//discord rpc
+const discordRPCClient = new discordRPC.Client({ transport: 'ipc' })
+const timeForDiscordRPC = Date.now()
+const defaultDiscordRPCActivity = {
+  assets: {
+    large_image: 'image_1',
+    large_text: 'Website Builder',
+  },
+  buttons: [
+    {
+      label: 'GitHub Repo',
+      url: 'https://github.com/jullevistrunz/website-builder',
+    },
+  ],
+  timestamps: { start: timeForDiscordRPC },
+  instance: true,
+}
+
+discordRPCClient.on('ready', () => {
+  discordRPCClient.request('SET_ACTIVITY', {
+    pid: process.pid,
+    activity: defaultDiscordRPCActivity,
+  })
+})
+discordRPCClient.login({ clientId: '1129374022304534549' })
 
 contextBridge.exposeInMainWorld('preload', {
   test: () => console.info('test'),
@@ -189,6 +216,32 @@ contextBridge.exposeInMainWorld('preload', {
   },
   openLinkInBrowser: (link) => {
     shell.openExternal(link)
+  },
+  updateDiscordRPC: (details) => {
+    if (
+      JSON.parse(fs.readFileSync('settings.json')).other
+        .allowDiscordRpcUpdates == 'false'
+    ) {
+      return
+    }
+    discordRPCClient.request('SET_ACTIVITY', {
+      pid: process.pid,
+      activity: {
+        details: details,
+        assets: {
+          large_image: 'image_1',
+          large_text: 'Website Builder',
+        },
+        buttons: [
+          {
+            label: 'GitHub Repo',
+            url: 'https://github.com/jullevistrunz/website-builder',
+          },
+        ],
+        timestamps: { start: timeForDiscordRPC },
+        instance: true,
+      },
+    })
   },
 })
 

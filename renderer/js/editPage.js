@@ -8,6 +8,7 @@ function loadEditPage() {
   const page = localStorage.getItem('pageToEdit')
   localStorage.setItem('goTo', 'edit')
   updateTitle(`Editing ${preload.getPageInfo(page).name}`)
+  preload.updateDiscordRPC(`Editing ${preload.getPageInfo(page).name}`)
   //load viewsMenu
   const views = preload.getViews(page)
   document
