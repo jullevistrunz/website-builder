@@ -6,7 +6,7 @@ function loadEditPage() {
   oldEl.parentNode.replaceChild(newEl, oldEl)
 
   const page = localStorage.getItem('pageToEdit')
-  localStorage.setItem('goTo', 'edit')
+  localStorage.setItem('goTo', 'collection')
   updateTitle(`Editing ${preload.getPageInfo(page).name}`)
   preload.updateDiscordRPC(`Editing ${preload.getPageInfo(page).name}`)
   //load viewsMenu
