@@ -53,3 +53,55 @@
   background-color: transparent;
   box-shadow: 0 0 5px 2px red;
 }
+
+.editPage .viewContent .frame ._edit_showOutline {
+  outline: 1px black dotted;
+  position: relative;
+}
+
+.editPage .frame .frameSection .btnWrapper {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.editPage .frame .frameSection .upBtn,
+.editPage .frame .frameSection .downBtn {
+  fill: var(--dark-text);
+  background-color: var(--light-background);
+  width: 55px;
+  padding: 7.5px 0;
+  display: flex;
+  justify-content: center;
+  transition: 100ms linear;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.editPage .frame .frameSection .upBtn svg,
+.editPage .frame .frameSection .downBtn svg {
+  height: 20px;
+}
+
+.editPage .frame .frameSection .upBtn {
+  border-radius: 5px 0 0 5px;
+}
+
+.editPage .frame .frameSection .downBtn {
+  border-radius: 0 5px 5px 0;
+}
+
+.editPage .frame .frameSection .upBtn:hover:not(:disabled),
+.editPage .frame .frameSection .downBtn:hover:not(:disabled) {
+  fill: var(--main-text);
+  background-color: var(--dark-background);
+}
+
+.editPage .frame .frameSection .upBtn:disabled,
+.editPage .frame .frameSection .downBtn:disabled {
+  background-color: var(--main-background);
+  cursor: not-allowed;
+}

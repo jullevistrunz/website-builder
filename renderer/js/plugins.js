@@ -18,13 +18,22 @@ class EditTool {
         '.content .editPage .viewContent .frame'
       )
       document
-        .querySelectorAll('.content .editPage .viewContent .frame *')
+        .querySelectorAll(
+          '.content .editPage .viewContent .frame .frameSection'
+        )
         .forEach((el) => {
           for (let i = 0; i < el.classList.length; i++) {
             if (el.classList[i].startsWith('_edit_')) {
               el.classList.remove(el.classList[i])
             }
           }
+        })
+      document
+        .querySelectorAll(
+          '.content .editPage .frame .frameSection ._placeholder_'
+        )
+        .forEach((el) => {
+          el.remove()
         })
       const newEl = oldEl.cloneNode(true)
       oldEl.parentNode.replaceChild(newEl, oldEl)

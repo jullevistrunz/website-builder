@@ -168,6 +168,7 @@ function loadEditPage() {
   document
     .querySelector('.content .editPage .specialToolsMenu .savePageBtn')
     .addEventListener('click', function () {
+      deselectEditTools()
       document
         .querySelectorAll('.content .editPage .viewContent .frame *')
         .forEach((el) => {
@@ -201,6 +202,7 @@ function loadEditPage() {
 }
 
 function saveEditViewToTemp(page, view) {
+  deselectEditTools()
   const id = `${page}-${view}`
   try {
     preload.readDir(`temp/${id}`)
@@ -235,7 +237,23 @@ function saveEditViewToTemp(page, view) {
 }
 
 function deselectEditTools() {
-  document.querySelector('.content .editPage .toolsMenu .deselectBtn').click()
+  document
+    .querySelectorAll('.content .editPage .viewContent .frame .frameSection')
+    .forEach((el) => {
+      for (let i = 0; i < el.classList.length; i++) {
+        if (el.classList[i].startsWith('_edit_')) {
+          el.classList.remove(el.classList[i])
+        }
+      }
+    })
+  document
+    .querySelectorAll('.content .editPage .frame .frameSection ._placeholder_')
+    .forEach((el) => {
+      el.remove()
+    })
+  document
+    .querySelectorAll('.content .editPage .toolsMenu button')
+    .forEach((el) => el.classList.remove('selected'))
 }
 
 function checkSaveEdit() {

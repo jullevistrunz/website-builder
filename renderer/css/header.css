@@ -19,6 +19,7 @@
   /* block header text */
   background-color: var(--light-background);
   -webkit-app-region: no-drag;
+  cursor: pointer;
 }
 
 .header .windowControls > * {
