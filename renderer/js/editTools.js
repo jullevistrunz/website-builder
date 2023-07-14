@@ -2,6 +2,15 @@ new EditTool(['deselectBtn'], 'Deselect Tools', function () {
   document
     .querySelector('.content .editPage .toolsMenu .deselectBtn')
     .classList.remove('selected')
+}).load(function () {
+  JSON.parse(localStorage.getItem('settings')).editPage.deselectToolsButton ==
+  'true'
+    ? document
+        .querySelector('.content .editPage .toolsMenu .deselectBtn')
+        .classList.remove('hidden')
+    : document
+        .querySelector('.content .editPage .toolsMenu .deselectBtn')
+        .classList.add('hidden')
 })
 
 new EditTool(['addElBtn'], 'Add Element', function () {

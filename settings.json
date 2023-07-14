@@ -1,5 +1,6 @@
 {
   "editPage": {
+    "deselectToolsButton": "true",
     "viewSourceCode": {
       "prog": "native",
       "fontFamily": "'Dank Mono', Consolas",
