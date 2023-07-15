@@ -5,6 +5,10 @@ function loadEditPage() {
   const newEl = oldEl.cloneNode(true)
   oldEl.parentNode.replaceChild(newEl, oldEl)
 
+  const oldEl2 = document.querySelector('.content .editPage .viewsMenu')
+  const newEl2 = oldEl2.cloneNode(true)
+  oldEl2.parentNode.replaceChild(newEl2, oldEl2)
+
   const page = localStorage.getItem('pageToEdit')
   localStorage.setItem('goTo', 'collection')
   updateTitle(`Editing ${preload.getPageInfo(page).name}`)
@@ -12,7 +16,7 @@ function loadEditPage() {
   //load viewsMenu
   const views = preload.getViews(page)
   document
-    .querySelectorAll('.content .editPage .viewsMenu button')
+    .querySelectorAll('.content .editPage .viewsMenu button:not(.addViewBtn)')
     .forEach((el) => el.remove())
   for (let i = 0; i < views.length; i++) {
     const btn = document.createElement('button')
@@ -21,6 +25,7 @@ function loadEditPage() {
     btn.addEventListener('click', function () {
       const lambdaFunc = () => {
         localStorage.setItem('viewToEdit', views[i])
+        checkRmView()
         document
           .querySelectorAll('.content .editPage .viewsMenu button')
           .forEach((el) => el.classList.remove('selected'))
@@ -70,7 +75,9 @@ function loadEditPage() {
       .getElementById(`viewBtn:${localStorage.getItem('viewToEdit')}`)
       .click()
   } else {
-    document.querySelector('.content .editPage .viewsMenu button').click()
+    document
+      .querySelector('.content .editPage .viewsMenu button:not(.addViewBtn)')
+      .click()
   }
   document
     .querySelector('.content .editPage .specialToolsMenu .viewSrcCodeBtn')
@@ -199,6 +206,55 @@ function loadEditPage() {
         }
       )
     })
+  //addView
+  document
+    .querySelector('.content .editPage .viewsMenu .addViewBtn')
+    .addEventListener('click', function () {
+      if (document.querySelector('.popUpOverlay .addViewPopUp')) {
+        document.querySelector('.popUpOverlay .addViewPopUp').remove()
+      }
+      const overlay = document.createElement('div')
+      overlay.classList.add('addViewPopUp')
+      document.querySelector('.popUpOverlay').classList.toggle('use')
+      document.querySelector('.popUpOverlay').classList.toggle('blur')
+      const input = document.createElement('input')
+      input.placeholder = 'View Path / Name'
+
+      const btn = document.createElement('button')
+      btn.innerHTML = 'Add To Page'
+      btn.addEventListener('click', () => {
+        document.querySelector('.popUpOverlay').click()
+        const cleanValue = input.value.replace(' ', '-')
+        addNewView(cleanValue)
+      })
+      btn.disabled = true
+      input.addEventListener('input', (e) => {
+        btn.disabled = !e.target.value
+      })
+
+      const cancelBtn = document.createElement('button')
+      cancelBtn.innerHTML = 'Cancel'
+      cancelBtn.addEventListener('click', () => {
+        document.querySelector('.popUpOverlay').click()
+      })
+
+      overlay.appendChild(input)
+      overlay.appendChild(btn)
+      overlay.appendChild(cancelBtn)
+
+      document.querySelector('.popUpOverlay').appendChild(overlay)
+    })
+
+  //remove view
+  document
+    .querySelector('.content .editPage .specialToolsMenu .rmViewBtn')
+    .addEventListener('click', function () {
+      popUpQuestion(`Are you sure you want to delete this view?`, () => {
+        preload.removePageView(page, localStorage.getItem('viewToEdit'))
+        localStorage.removeItem('viewToEdit')
+        goToAndReload('edit')
+      })
+    })
 }
 
 function saveEditViewToTemp(page, view) {
@@ -267,4 +323,18 @@ function checkSaveEdit() {
   ).disabled = !/[A-Za-z0-9]/.test(
     document.querySelector('.content .editPage .viewContent .frame').innerHTML
   )
+}
+
+function addNewView(name) {
+  preload.addPageView(localStorage.getItem('pageToEdit'), name)
+  localStorage.setItem('viewToEdit', `${name}.html`)
+  goToAndReload('edit')
+}
+
+function checkRmView() {
+  document.querySelector(
+    '.content .editPage .specialToolsMenu .rmViewBtn'
+  ).disabled =
+    localStorage.getItem('viewToEdit') == 'main.html' ||
+    localStorage.getItem('viewToEdit') == '404.html'
 }

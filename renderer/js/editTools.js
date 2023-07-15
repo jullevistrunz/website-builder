@@ -86,6 +86,7 @@ function openAddHTMLPopUp() {
   btn.innerHTML = 'Add To Page'
   btn.addEventListener('click', () => {
     document.querySelector('.popUpOverlay').click()
+    if (!input.value) return
     const cleanValue = input.value.replace(/\r?\n|\r/g, '')
     addHTMLToFrame(cleanValue, 'customHTML')
   })

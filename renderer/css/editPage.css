@@ -6,17 +6,19 @@
     'viewContent specialToolsMenu'
     'viewContent viewsMenu';
   grid-template-columns: 1fr 200px;
-  grid-template-rows: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   margin: 12.5px;
   gap: 12.5px;
 }
 
 .editPage .viewsMenu {
+  position: relative;
   background-color: var(--light-background);
   padding: 2.5px;
   grid-area: viewsMenu;
   border-radius: 5px;
   box-shadow: 1px 1px 10px 1px var(--dark-background);
+  overflow: auto;
 }
 
 .editPage .toolsMenu {
@@ -25,6 +27,7 @@
   grid-area: toolsMenu;
   border-radius: 5px;
   box-shadow: 1px 1px 10px 1px var(--dark-background);
+  overflow: auto;
 }
 
 .editPage .specialToolsMenu {
@@ -33,6 +36,7 @@
   grid-area: specialToolsMenu;
   border-radius: 5px;
   box-shadow: 1px 1px 10px 1px var(--dark-background);
+  overflow: auto;
 }
 
 .editPage .viewsMenu h1,
@@ -44,7 +48,7 @@
   border-bottom: var(--dark-background) 1px solid;
 }
 
-.editPage .viewsMenu button,
+.editPage .viewsMenu button:not(.addViewBtn),
 .editPage .specialToolsMenu button,
 .editPage .toolsMenu button {
   background-color: var(--light-background);
@@ -57,7 +61,11 @@
   cursor: pointer;
 }
 
-.editPage .viewsMenu button:not(:disabled):hover,
+.editPage .specialToolsMenu button.rmViewBtn:not(:disabled):hover {
+  color: red;
+}
+
+.editPage .viewsMenu button:not(.addViewBtn):not(:disabled):hover,
 .editPage .specialToolsMenu button:not(:disabled):hover,
 .editPage .toolsMenu button:not(:disabled):hover {
   background-color: var(--main-background);
@@ -74,6 +82,33 @@
 .editPage .viewsMenu button.selected:not(:disabled),
 .editPage .toolsMenu button.selected:not(:disabled) {
   color: var(--color);
+}
+
+.editPage .viewsMenu .addViewBtn {
+  position: absolute;
+  right: 14px;
+  top: 11px;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: var(--dark-text);
+  transition: 100ms linear;
+  padding: 0;
+}
+
+.editPage .viewsMenu .addViewBtn:hover {
+  fill: var(--main-text);
+}
+.editPage .viewsMenu .addViewBtn svg {
+  height: 22px;
+  width: 22px;
+  rotate: 45deg;
 }
 
 .editPage .viewContent {
@@ -94,4 +129,51 @@
 .editPage .viewContent .frame * {
   font-family: system-ui;
   color: black;
+}
+
+.popUpOverlay .addViewPopUp {
+  position: absolute;
+  max-width: 500px;
+  width: 75%;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--light-background);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 1px 1px 10px 1px var(--dark-background);
+}
+
+.popUpOverlay .addViewPopUp button {
+  background-color: var(--main-background);
+  border: 1px transparent solid;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 12.5px;
+  margin: 2.5px 0;
+  cursor: pointer;
+}
+
+.popUpOverlay .addViewPopUp button:not(:disabled):hover {
+  background-color: var(--main-background);
+  border-color: var(--dark-background);
+  color: var(--color);
+}
+
+.popUpOverlay .addViewPopUp button:disabled {
+  color: var(--dark-text);
+  cursor: not-allowed;
+}
+
+.popUpOverlay .addViewPopUp input {
+  background-color: var(--main-background);
+  border: 1px var(--dark-background) solid;
+  border-radius: 5px;
+  color: var(--main-text);
+  padding: 5px 12.5px;
+  margin: 12.5px 0;
+  font-size: 20px;
+  width: calc(100% - 25px - 2px);
 }
