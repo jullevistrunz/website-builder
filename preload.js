@@ -245,13 +245,16 @@ contextBridge.exposeInMainWorld('preload', {
   },
   addPageView: (page, viewName) => {
     try {
-      if (fs.readFileSync(`${pagePath}/${page}/views/${viewName}.html`)) return
-      fs.writeFileSync(
-        `${pagePath}/${page}/views/${viewName}.html`,
-        `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body><div class="frameSection"><h1>Hello World from ${viewName}</h1></div></body></html>`
-      )
+      if (!fs.readFileSync(`${pagePath}/${page}/views/${viewName}.html`)) return
     } catch {
-      return
+      try {
+        fs.writeFileSync(
+          `${pagePath}/${page}/views/${viewName}.html`,
+          `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Hello World</title></head><style>body{margin:0;}</style><body><div class="frameSection"><h1>Hello World from ${viewName}</h1></div></body></html>`
+        )
+      } catch {
+        return
+      }
     }
   },
   removePageView: (page, view) => {
