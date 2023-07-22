@@ -52,9 +52,11 @@
   cursor: pointer;
 }
 
-.pluginsPage .card button:not(:disabled):hover {
+.pluginsPage .card button:not(:disabled):hover,
+.pluginsPage .card button:not(:disabled):focus {
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 .pluginsPage .card button:disabled {

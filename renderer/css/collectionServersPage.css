@@ -44,9 +44,12 @@
 }
 
 .collectionPage .card button:not(:disabled):hover,
-.serversPage .card button:not(:disabled):hover {
+.serversPage .card button:not(:disabled):hover,
+.collectionPage .card button:not(:disabled):focus,
+.serversPage .card button:not(:disabled):focus {
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 .collectionPage .card button:disabled,
@@ -55,6 +58,7 @@
   cursor: not-allowed;
 }
 
-.collectionPage .card .deleteBtn:not(:disabled):hover {
+.collectionPage .card .deleteBtn:not(:disabled):hover,
+.collectionPage .card .deleteBtn:not(:disabled):focus {
   color: red;
 }

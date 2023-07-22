@@ -61,15 +61,20 @@
   cursor: pointer;
 }
 
-.editPage .specialToolsMenu button.rmViewBtn:not(:disabled):hover {
+.editPage .specialToolsMenu button.rmViewBtn:not(:disabled):hover,
+.editPage .specialToolsMenu button.rmViewBtn:not(:disabled):focus {
   color: red;
 }
 
 .editPage .viewsMenu button:not(.addViewBtn):not(:disabled):hover,
 .editPage .specialToolsMenu button:not(:disabled):hover,
-.editPage .toolsMenu button:not(:disabled):hover {
+.editPage .toolsMenu button:not(:disabled):hover,
+.editPage .viewsMenu button:not(.addViewBtn):not(:disabled):focus,
+.editPage .specialToolsMenu button:not(:disabled):focus,
+.editPage .toolsMenu button:not(:disabled):focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
+  outline: none;
 }
 
 .editPage .viewsMenu button:disabled,
@@ -87,9 +92,9 @@
 .editPage .viewsMenu .addViewBtn {
   position: absolute;
   right: 14px;
-  top: 11px;
+  top: 6px;
   background-color: transparent;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 5px;
   font-size: 16px;
   font-weight: 700;
@@ -99,12 +104,19 @@
   justify-content: center;
   fill: var(--dark-text);
   transition: 100ms linear;
-  padding: 0;
+  padding: 4px;
 }
 
 .editPage .viewsMenu .addViewBtn:hover {
   fill: var(--main-text);
 }
+
+.editPage .viewsMenu .addViewBtn:focus {
+  fill: var(--main-text);
+  outline: none;
+  border-color: var(--color);
+}
+
 .editPage .viewsMenu .addViewBtn svg {
   height: 22px;
   width: 22px;
@@ -156,10 +168,12 @@
   cursor: pointer;
 }
 
-.popUpOverlay .addViewPopUp button:not(:disabled):hover {
+.popUpOverlay .addViewPopUp button:not(:disabled):hover,
+.popUpOverlay .addViewPopUp button:not(:disabled):focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 .popUpOverlay .addViewPopUp button:disabled {
@@ -176,4 +190,8 @@
   margin: 12.5px 0;
   font-size: 20px;
   width: calc(100% - 25px - 2px);
+}
+
+.popUpOverlay .addViewPopUp input:focus {
+  outline: none;
 }

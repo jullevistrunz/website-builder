@@ -52,9 +52,12 @@
 }
 
 .settingsPopUp button:hover,
-.settingsValuePopUp button:hover {
+.settingsValuePopUp button:hover,
+.settingsPopUp button:focus,
+.settingsValuePopUp button:focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
+  outline: none;
 }
 
 .settingsPopUp button.moreOptions::after {
@@ -114,10 +117,12 @@
   cursor: pointer;
 }
 
-.settingsValueEditPopUp button:hover {
+.settingsValueEditPopUp button:hover,
+.settingsValueEditPopUp button:focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 .settingsValueEditPopUp input {
@@ -129,6 +134,10 @@
   margin: 12.5px 0;
   font-size: 20px;
   width: calc(100% - 25px - 2px);
+}
+
+.settingsValueEditPopUp input:focus {
+  outline: none;
 }
 
 .settingsValueEditPopUp .switch {
@@ -207,10 +216,12 @@
   cursor: pointer;
 }
 
-.questionPopUp button:hover {
+.questionPopUp button:hover,
+.questionPopUp button:focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 .viewSourceCodePopUp {
@@ -257,10 +268,12 @@
   cursor: pointer;
 }
 
-.viewSourceCodePopUp button:hover {
+.viewSourceCodePopUp button:hover,
+.viewSourceCodePopUp button:focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 code * {

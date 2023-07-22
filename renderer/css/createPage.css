@@ -35,7 +35,9 @@
   min-width: 280px;
 }
 
-.createPage button:hover {
+.createPage button:hover,
+.createPage button:focus {
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
