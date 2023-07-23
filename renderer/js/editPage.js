@@ -70,7 +70,9 @@ function loadEditPage() {
     })
     document.querySelector('.content .editPage .viewsMenu').appendChild(btn)
   }
-  if (localStorage.getItem('viewToEdit')) {
+  if (
+    document.getElementById(`viewBtn:${localStorage.getItem('viewToEdit')}`)
+  ) {
     document
       .getElementById(`viewBtn:${localStorage.getItem('viewToEdit')}`)
       .click()
@@ -243,6 +245,11 @@ function loadEditPage() {
       overlay.appendChild(cancelBtn)
 
       document.querySelector('.popUpOverlay').appendChild(overlay)
+
+      document.querySelectorAll('.content * button').forEach((btn) => {
+        btn.setAttribute('tabindex', -1)
+      })
+      input.focus()
     })
 
   //remove view
@@ -255,6 +262,12 @@ function loadEditPage() {
         goToAndReload('edit')
       })
     })
+
+  document.querySelectorAll('.content .editPage * button').forEach((btn) => {
+    btn.addEventListener('click', function () {
+      this.blur()
+    })
+  })
 }
 
 function saveEditViewToTemp(page, view) {

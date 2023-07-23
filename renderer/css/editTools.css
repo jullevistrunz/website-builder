@@ -26,10 +26,13 @@
 }
 
 .popUpOverlay .addElOverlay button:hover,
-.popUpOverlay .addHTMLPopUp button:hover {
+.popUpOverlay .addHTMLPopUp button:hover,
+.popUpOverlay .addElOverlay button:focus,
+.popUpOverlay .addHTMLPopUp button:focus {
   background-color: var(--main-background);
   border-color: var(--dark-background);
   color: var(--color);
+  outline: none;
 }
 
 .popUpOverlay .addHTMLPopUp textarea {
@@ -42,6 +45,10 @@
   font-size: 16px;
   width: calc(100% - 25px - 2px);
   resize: vertical;
+}
+
+.popUpOverlay .addHTMLPopUp textarea:focus {
+  outline: none;
 }
 
 .editPage .viewContent .frame ._edit_highLightOnHover {
@@ -95,9 +102,12 @@
 }
 
 .editPage .frame .frameSection .upBtn:hover:not(:disabled),
-.editPage .frame .frameSection .downBtn:hover:not(:disabled) {
+.editPage .frame .frameSection .downBtn:hover:not(:disabled),
+.editPage .frame .frameSection .upBtn:focus:not(:disabled),
+.editPage .frame .frameSection .downBtn:focus:not(:disabled) {
   fill: var(--main-text);
   background-color: var(--dark-background);
+  outline: none;
 }
 
 .editPage .frame .frameSection .upBtn:disabled,

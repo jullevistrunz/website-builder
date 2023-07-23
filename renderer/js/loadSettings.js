@@ -117,6 +117,9 @@ function createValueEditPopUp(valuePath) {
   const newEl = oldEl.cloneNode(true)
   oldEl.parentNode.replaceChild(newEl, oldEl)
   let oldValue = settings
+  document.querySelectorAll('.content * button').forEach((btn) => {
+    btn.setAttribute('tabindex', -1)
+  })
   for (let i = 0; i < valuePath.length; i++) {
     if (!oldValue[valuePath[i]]) {
       break

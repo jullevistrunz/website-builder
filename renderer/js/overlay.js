@@ -5,6 +5,9 @@ document.querySelector('.popUpOverlay').addEventListener('click', function (e) {
     .forEach((el) => el.classList.add('hidden'))
   this.classList.remove('use')
   this.classList.remove('blur')
+  document.querySelectorAll('.content * button').forEach((btn) => {
+    btn.removeAttribute('tabindex')
+  })
 })
 
 function popUpQuestion(question, cb) {
@@ -17,6 +20,9 @@ function popUpQuestion(question, cb) {
   const oldEl = document.querySelector('.questionPopUp .answerYes')
   const newEl = oldEl.cloneNode(true)
   oldEl.parentNode.replaceChild(newEl, oldEl)
+  document.querySelectorAll('.content * button').forEach((btn) => {
+    btn.setAttribute('tabindex', -1)
+  })
   document
     .querySelector('.questionPopUp .answerYes')
     .addEventListener('click', () => {

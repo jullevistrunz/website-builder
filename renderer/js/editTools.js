@@ -14,6 +14,9 @@ new EditTool(['deselectBtn'], 'Deselect Tools', function () {
 })
 
 new EditTool(['addElBtn'], 'Add Element', function () {
+  document.querySelectorAll('.content * button').forEach((btn) => {
+    btn.setAttribute('tabindex', -1)
+  })
   document.querySelector('.content .editPage .toolsMenu .deselectBtn').click()
   if (document.querySelector('.popUpOverlay .addElOverlay')) {
     document.querySelector('.popUpOverlay .addElOverlay').remove()
@@ -37,6 +40,13 @@ new EditTool(['addElBtn'], 'Add Element', function () {
   addElementList.forEach((el) => {
     addElementToList(el)
   })
+
+  const closeBtn = document.createElement('button')
+  closeBtn.innerHTML = 'Cancel'
+  closeBtn.addEventListener('click', function () {
+    document.querySelector('.popUpOverlay').click()
+  })
+  overlay.appendChild(closeBtn)
 })
 
 new EditTool(['rmElBtn'], 'Remove Element', function () {
@@ -75,13 +85,15 @@ function openAddHTMLPopUp() {
   if (document.querySelector('.popUpOverlay .addHTMLPopUp')) {
     document.querySelector('.popUpOverlay .addHTMLPopUp').remove()
   }
+  document.querySelectorAll('.content * button').forEach((btn) => {
+    btn.setAttribute('tabindex', -1)
+  })
   const overlay = document.createElement('div')
   overlay.classList.add('addHTMLPopUp')
   document.querySelector('.popUpOverlay').classList.toggle('use')
   document.querySelector('.popUpOverlay').classList.toggle('blur')
   const input = document.createElement('textarea')
   input.placeholder = 'Enter HTML Code Here'
-
   const btn = document.createElement('button')
   btn.innerHTML = 'Add To Page'
   btn.addEventListener('click', () => {
@@ -102,6 +114,7 @@ function openAddHTMLPopUp() {
   overlay.appendChild(cancelBtn)
 
   document.querySelector('.popUpOverlay').appendChild(overlay)
+  input.focus()
 }
 
 function addHTMLToFrame(code, type) {
@@ -157,6 +170,9 @@ new EditTool(['moveElementBtn'], 'Move Elements', function () {
           localStorage.getItem('pageToEdit'),
           localStorage.getItem('viewToEdit').slice(0, -1 * '.html'.length)
         )
+        document.querySelectorAll('.content * button').forEach((btn) => {
+          btn.removeAttribute('tabindex')
+        })
       })
       downBtn.addEventListener('click', function () {
         moveElement(el, 1)
@@ -166,10 +182,18 @@ new EditTool(['moveElementBtn'], 'Move Elements', function () {
           localStorage.getItem('pageToEdit'),
           localStorage.getItem('viewToEdit').slice(0, -1 * '.html'.length)
         )
+        document.querySelectorAll('.content * button').forEach((btn) => {
+          btn.removeAttribute('tabindex')
+        })
       })
 
       btnWrapper.appendChild(upBtn)
       btnWrapper.appendChild(downBtn)
       el.appendChild(btnWrapper)
+    })
+  document
+    .querySelectorAll('.content * button:not(.btnWrapper *)')
+    .forEach((btn) => {
+      btn.setAttribute('tabindex', -1)
     })
 })

@@ -184,6 +184,10 @@
   transform: translateX(25px);
 }
 
+.settingsValueEditPopUp .switch input:focus + .slider {
+  outline: 3px solid var(--color);
+}
+
 .questionPopUp {
   position: absolute;
   max-width: 500px;
