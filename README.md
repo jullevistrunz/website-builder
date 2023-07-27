@@ -1,6 +1,6 @@
 # Website Builder: An Electron app for website creation and self-hosting
 
-Website Builder is an [Electron](https://www.electronjs.org/) application for Windows. You can create your own website with simple UI based tools and host that website on your own PC with the click of button.
+Website Builder is an [Electron](https://www.electronjs.org/) application for Windows. You can create your own website using simple UI based tools and host that website on your own PC with the click of button.
 
 The app is still in Pre-Alpha. There are many bugs and only a fraction of the planned features have been added.
 
@@ -22,12 +22,12 @@ npm install
 npm start
 ```
 
-For more information on how to use the Website Builder take a look at the [wiki](https://github.com/jullevistrunz/website-builder/wiki/Usage).
+For more information on how to use Website Builder take a look at the [wiki](https://github.com/jullevistrunz/website-builder/wiki/Usage).
 
 ## Key Features
 
-- **Page Creation:** You might create multiple pages and add a Description to make identifying the content of your page easier.
-- **Page Editing:** You can add, move and delete elements to your page. You may also add multiple views to that page.
+- **Page Creation:** You might create multiple pages and add a description to make identifying the content of your page easier.
+- **Page Editing:** You can add, move and delete elements. You may also add multiple views to a page.
 - **Server Hosting:** You can start a server on any of your pages. This will host a website on you PC.
 - **Plugins:** You can either create your own plugins or load plugins created by others to make the editing of your page easier. 
 
