@@ -8,10 +8,19 @@ The app is still in Pre-Alpha. There are many bugs and only a fraction of the pl
 
 You need [npm](https://www.npmjs.com/) and [Node.js](https://nodejs.org/).
 
-1. You can download the ZIP file [here](https://github.com/jullevistrunz/website-builder/archive/refs/heads/master.zip) or clone the repository using GitHub CLI: `gh repo clone jullevistrunz/website-builder`.
-2. If you downloaded the ZIP file, unzip it.
-3. Open your terminal inside of the folder and run `npm install`.
-4. Run `npm start` to start the app.
+1. You can download the ZIP file [here](https://github.com/jullevistrunz/website-builder/archive/refs/heads/master.zip) or clone the repository using GitHub CLI:
+```
+gh repo clone jullevistrunz/website-builder
+```
+3. If you downloaded the ZIP file, unzip it.
+4. Open your terminal inside of the folder and run
+```
+npm install
+```
+7. To start the app run
+```
+npm start
+```
 
 For more information on how to use the Website Builder take a look at the [wiki](https://github.com/jullevistrunz/website-builder/wiki/Usage).
 
