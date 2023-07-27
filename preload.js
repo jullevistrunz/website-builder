@@ -7,7 +7,6 @@ const discordRPC = require('discord-rpc')
 const settings = JSON.parse(fs.readFileSync('settings.json'))
 const pagePath = settings.collectionPage.pagesDirectoryPath
 localStorage.setItem('settings', JSON.stringify(settings))
-localStorage.setItem('pages', JSON.stringify(fs.readdirSync(pagePath)))
 
 try {
   fs.readdirSync('temp')
@@ -34,10 +33,12 @@ try {
 }
 
 try {
-  fs.readdirSync('pages')
+  fs.readdirSync(pagePath)
 } catch {
-  fs.mkdirSync('pages')
+  fs.mkdirSync(pagePath)
 }
+
+localStorage.setItem('pages', JSON.stringify(fs.readdirSync(pagePath)))
 
 //discord rpc
 const discordRPCClient = new discordRPC.Client({ transport: 'ipc' })
